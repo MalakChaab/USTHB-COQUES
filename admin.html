@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Admin — USTHB Cases</title>
 
@@ -10,696 +10,398 @@
 
 <style>
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Arial,sans-serif;
   background:#fff6fa;
-  color:#49313d;
-}
-
-/* =========================
-   GLOBAL
-========================= */
-
-.hidden{
-  display:none!important;
+  color:#49313d
 }
 
 button{
-  border:0;
   cursor:pointer;
-  font-weight:700;
+  font-weight:bold
 }
 
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid #efc3d4;
-  border-radius:13px;
-  padding:13px;
-  font-size:15px;
-  background:white;
-  outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:#df5f96;
-  box-shadow:0 0 0 3px #fbe0eb;
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-.primary{
-  background:#d94f8b;
-  color:white;
-  padding:12px 18px;
-  border-radius:12px;
-}
-
-.secondary{
-  background:white;
-  color:#d94f8b;
-  border:1px solid #d94f8b;
-  padding:11px 17px;
-  border-radius:12px;
-}
-
-.danger{
-  background:#fff0f2;
-  color:#c43f63;
-  border:1px solid #f1a7bb;
-  padding:11px 16px;
-  border-radius:12px;
-}
-
-.success-btn{
-  background:#e6faed;
-  color:#23824b;
-  border:1px solid #9ad8b1;
-  padding:11px 16px;
-  border-radius:12px;
-}
-
-/* =========================
-   LOGIN
-========================= */
-
-.login-screen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:linear-gradient(
-    135deg,
-    #fff1f7,
-    #ffe0ed
-  );
-}
-
-.login-box{
-  width:100%;
-  max-width:430px;
-  background:white;
-  padding:35px;
-  border-radius:28px;
-  box-shadow:0 15px 50px rgba(191,70,119,.18);
-}
-
-.logo{
-  width:65px;
-  height:65px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#ffe0ed;
-  border-radius:20px;
-  font-size:30px;
-  margin-bottom:15px;
-}
-
-.login-box h1{
-  color:#d94f8b;
-  margin:0 0 8px;
-}
-
-.login-box p{
-  color:#8a6a78;
-}
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.dashboard{
-  min-height:100vh;
-}
+.hidden{display:none!important}
 
 .topbar{
   position:sticky;
   top:0;
-  z-index:100;
+  z-index:30;
   background:white;
-  border-bottom:1px solid #f2d5e1;
-  box-shadow:0 5px 20px rgba(80,30,50,.07);
+  border-bottom:1px solid #f1d7e3;
+  box-shadow:0 5px 20px #7c304512
 }
 
-.topbar-inner{
+.top{
   max-width:1250px;
   margin:auto;
-  padding:13px 20px;
+  padding:12px 20px;
   display:flex;
   align-items:center;
-  gap:20px;
+  gap:20px
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:190px;
-}
-
-.brand-icon{
-  width:43px;
-  height:43px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#ffe1ed;
-  border-radius:13px;
-  font-size:21px;
-}
-
-.brand-title{
-  font-weight:900;
   color:#d94f8b;
-}
-
-.brand-sub{
-  font-size:11px;
-  color:#9b7888;
+  font-weight:900;
+  white-space:nowrap
 }
 
 .nav{
   display:flex;
   gap:5px;
   flex:1;
+  overflow:auto
 }
 
 .nav button{
+  border:0;
   background:white;
-  color:#765765;
-  padding:11px 14px;
+  color:#725665;
+  padding:11px 15px;
   border-radius:11px;
-  white-space:nowrap;
-}
-
-.nav button:hover{
-  background:#fff0f6;
+  white-space:nowrap
 }
 
 .nav button.active{
   background:#d94f8b;
-  color:white;
+  color:white
 }
 
-.admin-user{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  background:#fff5f9;
-  padding:7px 11px;
-  border-radius:13px;
-  white-space:nowrap;
+.admin{
+  background:#fff1f6;
+  padding:9px 12px;
+  border-radius:12px;
+  white-space:nowrap
 }
-
-.admin-avatar{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  background:#d94f8b;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight:bold;
-}
-
-/* =========================
-   CONTENT
-========================= */
 
 .main{
   max-width:1250px;
   margin:auto;
-  padding:28px 20px;
+  padding:25px 20px
 }
 
-.page{
-  display:none;
-}
+.page{display:none}
+.page.active{display:block}
 
-.page.active{
-  display:block;
-}
-
-.page-title{
+.title{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
-  margin-bottom:22px;
+  margin-bottom:20px
 }
 
-.page-title h1{
-  margin:0;
+.title h1{
   color:#d94f8b;
+  margin:0
 }
 
-.page-title p{
-  margin:5px 0 0;
-  color:#92717f;
+.card{
+  background:white;
+  border:1px solid #f0dce5;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px #7c304508
 }
-
-/* =========================
-   STATS
-========================= */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin-bottom:22px;
+  margin-bottom:20px
 }
 
 .stat{
   background:white;
-  border:1px solid #f2dce5;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 5px 18px rgba(90,30,55,.05);
+  border:1px solid #f0dce5;
+  border-radius:18px;
+  padding:18px
 }
 
-.stat-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.stat-icon{
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#fff0f6;
-  border-radius:13px;
-  font-size:20px;
-}
-
-.stat-number{
-  font-size:30px;
-  font-weight:900;
-  color:#d94f8b;
-  margin-top:12px;
-}
-
-.stat-label{
-  color:#92717f;
-  font-size:13px;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.card{
-  background:white;
-  border:1px solid #f1dbe5;
-  border-radius:22px;
-  padding:22px;
-  margin-bottom:20px;
-  box-shadow:0 5px 18px rgba(90,30,55,.05);
-}
-
-.card h2{
-  margin-top:0;
-  color:#d94f8b;
-}
-
-/* =========================
-   PRODUCTS
-========================= */
-
-.product{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:15px 0;
-  border-bottom:1px solid #f4e2e9;
-}
-
-.product:last-child{
-  border-bottom:0;
-}
-
-.product-image{
-  width:78px;
-  height:78px;
-  object-fit:cover;
-  border-radius:15px;
-  background:#fff0f6;
-}
-
-.product-info{
-  flex:1;
-}
-
-.product-name{
-  font-size:17px;
-  font-weight:800;
-}
-
-.product-price{
-  color:#d94f8b;
-  font-weight:800;
-  margin-top:4px;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:999px;
-  background:#fff0f6;
-  color:#c63f78;
-  font-size:11px;
-  font-weight:800;
-  margin-top:6px;
-}
-
-.product-actions{
-  display:flex;
-  gap:7px;
-}
-
-/* =========================
-   PRODUCT FORM
-========================= */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-.field label{
+.stat b{
   display:block;
-  font-weight:700;
-  margin-bottom:6px;
+  color:#d94f8b;
+  font-size:28px;
+  margin-top:7px
 }
 
-.phone-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.phone-row{
-  background:#fff7fa;
-  border:1px solid #efd2df;
-  padding:9px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.phone-row input[type=checkbox]{
-  width:auto;
-}
-
-.stock-input{
-  width:70px!important;
-  margin-left:auto;
-  padding:7px!important;
-}
-
-.photo-preview{
-  width:75px;
-  height:75px;
-  object-fit:cover;
+.search{
+  width:100%;
+  padding:13px;
+  border:1px solid #edc6d7;
   border-radius:13px;
-  margin:5px;
+  margin-bottom:18px
 }
-
-/* =========================
-   ORDERS
-========================= */
 
 .order{
   background:white;
-  border:1px solid #f1d8e3;
-  border-radius:20px;
-  margin-bottom:15px;
-  padding:20px;
-  box-shadow:0 5px 18px rgba(90,30,55,.05);
+  border:1px solid #eed8e2;
   border-left:5px solid #d94f8b;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:15px
 }
 
-.order.processed{
-  border-left-color:#48a66b;
-  background:#fbfffc;
+.order.done{
+  border-left-color:#4ca66c
 }
 
-.order-header{
+.order-head{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
+  gap:15px
 }
 
-.order-number{
-  font-size:18px;
-  font-weight:900;
+.order-id{
+  font-size:19px;
   color:#d94f8b;
+  font-weight:900
 }
 
-.order-date{
+.date{
+  color:#927582;
   font-size:12px;
-  color:#967783;
-  margin-top:4px;
+  margin-top:5px
 }
 
 .status{
   padding:7px 12px;
-  border-radius:999px;
+  border-radius:20px;
   font-size:12px;
-  font-weight:900;
+  height:max-content
 }
 
-.status.pending{
-  background:#fff2dc;
-  color:#a86b18;
+.pending{
+  background:#fff1d8;
+  color:#9c6618
 }
 
-.status.done{
-  background:#e5f8ec;
-  color:#267b48;
+.done-status{
+  background:#e4f8eb;
+  color:#267b48
 }
 
-.order-grid{
+.customer{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
-  margin-top:18px;
+  margin:18px 0
 }
 
-.order-info{
+.info{
   background:#fff7fa;
-  padding:12px;
-  border-radius:13px;
+  border-radius:12px;
+  padding:12px
 }
 
-.order-label{
+.label{
   font-size:10px;
-  font-weight:900;
-  color:#987583;
-  margin-bottom:5px;
+  color:#967684;
+  font-weight:bold;
+  margin-bottom:5px
 }
 
-.delivery{
-  display:inline-block;
-  background:#ffe5ef;
-  color:#bd3e72;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
+.items{
+  border-top:1px solid #f0dce5;
+  padding-top:15px
 }
 
-.order-actions{
-  display:flex;
-  gap:8px;
-  margin-top:17px;
-  padding-top:15px;
-  border-top:1px solid #f2dce5;
-}
-
-/* =========================
-   ADD ORDER
-========================= */
-
-.product-choice{
+.item{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px;
-  border:2px solid #f1d8e3;
-  border-radius:15px;
-  margin-bottom:8px;
-  cursor:pointer;
+  padding:10px;
+  background:#fff8fb;
+  border-radius:13px;
+  margin-bottom:8px
 }
 
-.product-choice.selected{
-  border-color:#d94f8b;
-  background:#fff4f8;
-}
-
-.product-choice input{
-  width:auto;
-}
-
-.product-choice img{
-  width:55px;
-  height:55px;
+.item img{
+  width:60px;
+  height:60px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:10px
 }
 
-.total{
-  margin-top:20px;
-  background:#fff0f6;
-  padding:20px;
-  border-radius:16px;
+.item-info{
+  flex:1
 }
 
-.total strong{
+.item-name{
+  font-weight:bold
+}
+
+.item-model{
+  color:#8e6d7b;
+  font-size:12px
+}
+
+.item-price{
   color:#d94f8b;
-  font-size:25px;
+  font-weight:bold
 }
 
-/* =========================
-   MESSAGES
-========================= */
-
-.message{
-  margin-top:15px;
-  padding:13px;
-  border-radius:12px;
+.order-total{
+  text-align:right;
+  font-size:20px;
+  font-weight:900;
+  color:#d94f8b;
+  margin-top:12px
 }
 
-.message.success{
-  background:#e6faed;
-  color:#267b48;
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:16px;
+  border-top:1px solid #f0dce5;
+  padding-top:15px
 }
 
-.message.error{
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:11px 15px
+}
+
+.process{
+  background:#e4f8eb;
+  color:#267b48
+}
+
+.delete{
   background:#ffe8ef;
-  color:#a62f56;
+  color:#ae3159
+}
+
+.back{
+  background:#fff0f6;
+  color:#c33f75
 }
 
 .empty{
-  padding:45px;
   text-align:center;
-  color:#987783;
+  padding:50px;
+  color:#967684
 }
 
-/* =========================
-   MOBILE
-========================= */
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px
+}
+
+.field label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #edc6d7;
+  border-radius:12px
+}
+
+.field textarea{
+  min-height:90px
+}
+
+.primary{
+  background:#d94f8b;
+  color:white;
+  border:0;
+  border-radius:12px;
+  padding:12px 18px
+}
+
+.product{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  border-bottom:1px solid #f1dce5;
+  padding:12px 0
+}
+
+.product img{
+  width:75px;
+  height:75px;
+  object-fit:cover;
+  border-radius:12px
+}
+
+.product-info{flex:1}
+
+.product-name{
+  font-weight:bold;
+  font-size:17px
+}
+
+.price{
+  color:#d94f8b;
+  font-weight:bold
+}
 
 @media(max-width:900px){
 
-  .topbar-inner{
-    flex-wrap:wrap;
-  }
-
-  .brand{
-    width:100%;
-  }
-
-  .nav{
-    order:3;
-    width:100%;
-    overflow-x:auto;
-  }
-
-  .admin-user{
-    margin-left:auto;
-  }
-
   .stats{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr)
   }
 
-  .order-grid{
-    grid-template-columns:1fr 1fr;
+  .customer{
+    grid-template-columns:1fr 1fr
   }
 
 }
 
 @media(max-width:600px){
 
+  .top{
+    flex-wrap:wrap;
+    padding:10px
+  }
+
+  .brand{
+    width:100%
+  }
+
+  .nav{
+    width:100%;
+    order:3
+  }
+
   .main{
-    padding:18px 12px;
+    padding:18px 12px
   }
 
   .stats{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr 1fr
   }
 
-  .stat{
-    padding:15px;
-  }
-
-  .stat-number{
-    font-size:24px;
+  .customer{
+    grid-template-columns:1fr
   }
 
   .form-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
 
-  .full{
-    grid-column:auto;
+  .order-head{
+    flex-direction:column
   }
 
-  .phone-grid{
-    grid-template-columns:1fr;
+  .actions{
+    flex-direction:column
   }
 
-  .order-grid{
-    grid-template-columns:1fr;
-  }
-
-  .order-header{
-    flex-direction:column;
-  }
-
-  .product{
-    align-items:flex-start;
-    flex-wrap:wrap;
-  }
-
-  .product-actions{
-    width:100%;
-  }
-
-  .product-actions button{
-    flex:1;
-  }
-
-  .order-actions{
-    flex-direction:column;
-  }
-
-  .order-actions button{
-    width:100%;
+  .actions button{
+    width:100%
   }
 
 }
@@ -707,165 +409,45 @@ textarea{
 </style>
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
-<div id="loginScreen" class="login-screen">
-
-  <div class="login-box">
-
-    <div class="logo">
-      🎀
-    </div>
-
-    <h1>USTHB CASES</h1>
-
-    <p>
-      Connexion à ton espace administrateur.
-    </p>
-
-    <form id="loginForm">
-
-      <div class="field">
-
-        <label>Email</label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="Email admin"
-          required
-        >
-
-      </div>
-
-      <br>
-
-      <div class="field">
-
-        <label>Mot de passe</label>
-
-        <input
-          id="password"
-          type="password"
-          placeholder="Mot de passe"
-          required
-        >
-
-      </div>
-
-      <br>
-
-      <button
-        class="primary"
-        style="width:100%"
-        type="submit"
-      >
-        🔐 Se connecter
-      </button>
-
-      <div
-        id="loginMessage"
-        class="message hidden"
-      ></div>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
-
-<div
-  id="dashboard"
-  class="dashboard hidden"
->
-
-
-<!-- TOP BAR -->
 
 <header class="topbar">
 
-  <div class="topbar-inner">
+<div class="top">
 
-    <div class="brand">
-
-      <div class="brand-icon">
-        🎀
-      </div>
-
-      <div>
-
-        <div class="brand-title">
-          USTHB CASES
-        </div>
-
-        <div class="brand-sub">
-          ADMIN DASHBOARD
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <nav class="nav">
-
-      <button
-        class="active"
-        data-page="productsPage"
-      >
-        📦 Produits
-      </button>
-
-      <button
-        data-page="ordersPage"
-      >
-        🛍️ Commandes
-        <span
-          id="navOrderCount"
-        ></span>
-      </button>
-
-      <button
-        data-page="addOrderPage"
-      >
-        ➕ Ajouter une commande
-      </button>
-
-    </nav>
-
-
-    <div class="admin-user">
-
-      <div class="admin-avatar">
-        A
-      </div>
-
-      <span>
-        Admin
-      </span>
-
-      <button
-        class="secondary"
-        onclick="logout()"
-        style="padding:7px 10px"
-      >
-        ↪
-      </button>
-
-    </div>
-
+  <div class="brand">
+    🎀 USTHB CASES
   </div>
+
+  <nav class="nav">
+
+    <button
+      class="active"
+      onclick="showPage('productsPage',this)"
+    >
+      📦 Produits
+    </button>
+
+    <button
+      onclick="showPage('ordersPage',this)"
+    >
+      🛍️ Commandes
+      <span id="navCount"></span>
+    </button>
+
+    <button
+      onclick="showPage('addPage',this)"
+    >
+      ➕ Ajouter une commande
+    </button>
+
+  </nav>
+
+  <div class="admin">
+    👩‍💼 Admin
+  </div>
+
+</div>
 
 </header>
 
@@ -873,664 +455,211 @@ textarea{
 <main class="main">
 
 
-<!-- =====================================================
-     PRODUITS
-===================================================== -->
+<!-- PRODUITS -->
 
-<section
-  id="productsPage"
-  class="page active"
->
+<section id="productsPage" class="page active">
 
-  <div class="page-title">
+<div class="title">
 
-    <div>
-
-      <h1>📦 Produits</h1>
-
-      <p>
-        Gère tes coques et tes produits.
-      </p>
-
-    </div>
-
-    <button
-      class="secondary"
-      onclick="loadProducts()"
-    >
-      ↻ Actualiser
-    </button>
-
+  <div>
+    <h1>📦 Produits</h1>
+    <p>Gestion de tes produits.</p>
   </div>
 
+  <button
+    class="primary"
+    onclick="loadProducts()"
+  >
+    ↻ Actualiser
+  </button>
 
-  <div class="card">
+</div>
 
-    <h2 id="productFormTitle">
-      ➕ Ajouter un produit
-    </h2>
+<div class="card">
 
+  <h2>Produits disponibles</h2>
 
-    <div class="form-grid">
-
-
-      <div class="field">
-
-        <label>
-          Nom du produit
-        </label>
-
-        <input
-          id="name"
-          placeholder="Ex : Coque Cherry"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Prix
-        </label>
-
-        <input
-          id="price"
-          type="number"
-          min="0"
-          placeholder="Ex : 1200"
-        >
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Catégorie
-        </label>
-
-        <select id="category">
-
-          <option value="cases">
-            📱 Coques
-          </option>
-
-          <option value="accessoires">
-            ✨ Accessoires
-          </option>
-
-          <option value="ventouses">
-            🚗 Ventouses
-          </option>
-
-          <option value="ipad">
-            📱 iPad
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div
-        id="caseFields"
-        class="full"
-      >
-
-        <label>
-          <b>📱 Modèles iPhone et stock</b>
-        </label>
-
-        <br>
-
-        <div
-          id="iphonePhones"
-          class="phone-grid"
-        ></div>
-
-
-        <br>
-
-        <label>
-
-          <input
-            type="radio"
-            name="phoneType"
-            value="iphone"
-            checked
-            style="width:auto"
-          >
-
-          iPhone
-
-        </label>
-
-
-        <label style="margin-left:20px">
-
-          <input
-            type="radio"
-            name="phoneType"
-            value="other"
-            style="width:auto"
-          >
-
-          Autre modèle
-
-        </label>
-
-
-        <input
-          id="customModel"
-          class="hidden"
-          placeholder="Écris le modèle"
-          style="margin-top:10px"
-        >
-
-
-        <input
-          id="customStock"
-          class="hidden"
-          type="number"
-          min="0"
-          placeholder="Stock"
-          style="margin-top:10px"
-        >
-
-      </div>
-
-
-      <div
-        id="simpleFields"
-        class="full hidden"
-      >
-
-        <label>
-          Stock
-        </label>
-
-        <input
-          id="simpleStock"
-          type="number"
-          min="0"
-          placeholder="Quantité"
-        >
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          📸 Photos
-        </label>
-
-        <input
-          id="photo"
-          type="file"
-          accept="image/*"
-          multiple
-        >
-
-        <div id="previews"></div>
-
-        <input
-          id="img"
-          placeholder="Ou URLs séparées par une virgule"
-          style="margin-top:10px"
-        >
-
-      </div>
-
-
-    </div>
-
-
-    <br>
-
-    <button
-      class="primary"
-      onclick="saveProduct()"
-    >
-      💾 Enregistrer le produit
-    </button>
-
-    <button
-      id="cancelProduct"
-      class="secondary hidden"
-      onclick="resetProductForm()"
-      style="margin-left:8px"
-    >
-      Annuler
-    </button>
-
-
-    <div
-      id="productMessage"
-      class="message hidden"
-    ></div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="page-title">
-
-      <h2>
-        Mes produits
-      </h2>
-
-    </div>
-
-    <div id="productList">
-      Chargement...
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     COMMANDES
-===================================================== -->
-
-<section
-  id="ordersPage"
-  class="page"
->
-
-  <div class="page-title">
-
-    <div>
-
-      <h1>🛍️ Commandes clientes</h1>
-
-      <p>
-        Toutes les commandes reçues apparaissent ici.
-      </p>
-
-    </div>
-
-    <button
-      class="secondary"
-      onclick="loadOrders()"
-    >
-      ↻ Actualiser
-    </button>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-
-      <div class="stat-top">
-
-        <div>
-          <div class="stat-label">
-            TOTAL
-          </div>
-
-          <div
-            id="totalOrders"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-icon">
-          🛍️
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-top">
-
-        <div>
-
-          <div class="stat-label">
-            EN ATTENTE
-          </div>
-
-          <div
-            id="pendingOrders"
-            class="stat-number"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-icon">
-          🟠
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-top">
-
-        <div>
-
-          <div class="stat-label">
-            TRAITÉES
-          </div>
-
-          <div
-            id="processedOrders"
-            class="stat-number"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-icon">
-          ✅
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-top">
-
-        <div>
-
-          <div class="stat-label">
-            USTHB
-          </div>
-
-          <div
-            id="usthbOrders"
-            class="stat-number"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="stat-icon">
-          🎓
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <input
-      id="orderSearch"
-      placeholder="🔎 Rechercher par nom, téléphone, modèle..."
-    >
-
-  </div>
-
-
-  <div id="orderList">
-
+  <div id="productList">
     Chargement...
-
   </div>
+
+</div>
 
 </section>
 
 
-<!-- =====================================================
-     AJOUTER COMMANDE
-===================================================== -->
+<!-- COMMANDES -->
 
-<section
-  id="addOrderPage"
-  class="page"
->
+<section id="ordersPage" class="page">
 
-  <div class="page-title">
+<div class="title">
 
-    <div>
-
-      <h1>➕ Ajouter une commande</h1>
-
-      <p>
-        Crée une commande directement depuis l'Admin.
-      </p>
-
-    </div>
-
+  <div>
+    <h1>🛍️ Commandes clientes</h1>
+    <p>
+      Les commandes avec plusieurs articles apparaissent ici.
+    </p>
   </div>
 
-
-  <div class="card">
-
-
-    <div class="form-grid">
-
-
-      <div class="field">
-
-        <label>
-          Nom
-        </label>
-
-        <input
-          id="clientNom"
-          placeholder="Nom"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Prénom
-        </label>
-
-        <input
-          id="clientPrenom"
-          placeholder="Prénom"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Téléphone
-        </label>
-
-        <input
-          id="clientTelephone"
-          type="tel"
-          placeholder="0555..."
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Wilaya
-        </label>
-
-        <select id="clientWilaya">
-
-          <option value="">
-            Choisir
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Adresse
-        </label>
-
-        <textarea
-          id="clientAdresse"
-          placeholder="Adresse"
-        ></textarea>
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Livraison
-        </label>
-
-        <select id="clientLivraison">
-
-          <option value="">
-            Choisir
-          </option>
-
-          <option value="Domicile">
-            🏠 Domicile
-          </option>
-
-          <option value="Bureau">
-            📦 Bureau
-          </option>
-
-          <option value="USTHB">
-            🎓 USTHB
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Produit
-        </label>
-
-        <div id="manualProducts">
-          Chargement...
-        </div>
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Modèle
-        </label>
-
-        <select id="clientModele">
-
-          <option value="">
-            Choisir le modèle
-          </option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-
-    <div class="total">
-
-      Total estimé :
-
-      <br><br>
-
-      <strong id="manualTotal">
-        0 DA
-      </strong>
-
-    </div>
-
-
-    <br>
-
-    <button
-      class="primary"
-      onclick="saveManualOrder()"
-    >
-      ✅ Enregistrer la commande
-    </button>
-
-
-    <div
-      id="manualMessage"
-      class="message hidden"
-    ></div>
-
-  </div>
-
-</section>
-
-
-</main>
+  <button
+    class="primary"
+    onclick="loadOrders()"
+  >
+    ↻ Actualiser
+  </button>
 
 </div>
 
 
-<script>
+<div class="stats">
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+  <div class="stat">
+    Total
+    <b id="total">0</b>
+  </div>
+
+  <div class="stat">
+    En attente
+    <b id="pending">0</b>
+  </div>
+
+  <div class="stat">
+    Traitées
+    <b id="done">0</b>
+  </div>
+
+  <div class="stat">
+    USTHB
+    <b id="usthb">0</b>
+  </div>
+
+</div>
+
+
+<input
+  id="orderSearch"
+  class="search"
+  placeholder="🔎 Rechercher une commande..."
+>
+
+
+<div id="orders">
+  Chargement...
+</div>
+
+</section>
+
+
+<!-- AJOUT COMMANDE -->
+
+<section id="addPage" class="page">
+
+<div class="title">
+
+  <div>
+    <h1>➕ Ajouter une commande</h1>
+    <p>Ajouter une commande depuis l'administration.</p>
+  </div>
+
+</div>
+
+<div class="card">
+
+<div class="form-grid">
+
+<div class="field">
+<label>Nom</label>
+<input id="aNom">
+</div>
+
+<div class="field">
+<label>Prénom</label>
+<input id="aPrenom">
+</div>
+
+<div class="field">
+<label>Téléphone</label>
+<input id="aTelephone">
+</div>
+
+<div class="field">
+<label>Wilaya</label>
+<select id="aWilaya">
+<option value="">Choisir</option>
+</select>
+</div>
+
+<div class="field">
+<label>Livraison</label>
+<select id="aLivraison">
+<option value="">Choisir</option>
+<option value="USTHB">USTHB</option>
+<option value="Bureau">Bureau</option>
+<option value="Domicile">Domicile</option>
+</select>
+</div>
+
+<div class="field">
+<label>Adresse</label>
+<input id="aAdresse">
+</div>
+
+</div>
+
+<br>
+
+<h3>Produit</h3>
+
+<select id="aProduct"></select>
+
+<br><br>
+
+<input
+  id="aModel"
+  placeholder="Modèle (ex: iPhone 13)"
+>
+
+<br><br>
+
+<input
+  id="aPrice"
+  type="number"
+  placeholder="Prix"
+>
+
+<br><br>
+
+<button
+  class="primary"
+  onclick="addManualOrder()"
+>
+  💾 Enregistrer
+</button>
+
+<div id="addMessage"></div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
 
 const db = supabase.createClient(
   'https://sydurxdeqjgyuzvotmth.supabase.co',
-  'sb_publishable_YtZkRYlml5U_6OtOKcnnyQ_smF0CELK'
+  'sb_publishable_YtZkRYlml5U_6OtOKcnny'
 );
 
-
-let products = [];
-let orders = [];
-let editingProductId = null;
-let selectedManualProduct = null;
-let photoData = [];
+let orders=[];
+let products=[];
 
 
-/* =====================================================
-   HELPERS
-===================================================== */
+function esc(v){
 
-const $ = id =>
-  document.getElementById(id);
-
-
-function esc(value){
-
-  return String(value ?? '')
-    .replace(/[&<>"']/g, c => ({
+  return String(v ?? '')
+    .replace(/[&<>"']/g,c=>({
       '&':'&amp;',
       '<':'&lt;',
       '>':'&gt;',
@@ -1541,40 +670,20 @@ function esc(value){
 }
 
 
-function money(value){
+function images(v){
 
-  return Number(value || 0)
-    .toLocaleString('fr-DZ') + ' DA';
-
-}
-
-
-function images(value){
-
-  return String(value || '')
+  return String(v || '')
     .split('||')
-    .map(x => x.trim())
     .filter(Boolean);
 
 }
 
 
-function models(value){
+function dateFormat(v){
 
-  return String(value || '')
-    .split('||')
-    .map(x => x.trim())
-    .filter(Boolean);
+  if(!v) return '';
 
-}
-
-
-function dateFormat(value){
-
-  if(!value)
-    return 'Date inconnue';
-
-  return new Date(value)
+  return new Date(v)
     .toLocaleString(
       'fr-DZ',
       {
@@ -1586,845 +695,57 @@ function dateFormat(value){
 }
 
 
-/* =====================================================
-   WILAYAS
-===================================================== */
+/* NAV */
 
-const wilayas = [
+function showPage(id,button){
 
-'Adrar',
-'Chlef',
-'Laghouat',
-'Oum El Bouaghi',
-'Batna',
-'Béjaïa',
-'Biskra',
-'Béchar',
-'Blida',
-'Bouira',
-'Tamanrasset',
-'Tébessa',
-'Tlemcen',
-'Tiaret',
-'Tizi Ouzou',
-'Alger',
-'Djelfa',
-'Jijel',
-'Sétif',
-'Saïda',
-'Skikda',
-'Sidi Bel Abbès',
-'Annaba',
-'Guelma',
-'Constantine',
-'Médéa',
-'Mostaganem',
-'M’Sila',
-'Mascara',
-'Ouargla',
-'Oran',
-'El Bayadh',
-'Illizi',
-'Bordj Bou Arreridj',
-'Boumerdès',
-'El Tarf',
-'Tindouf',
-'Tissemsilt',
-'El Oued',
-'Khenchela',
-'Souk Ahras',
-'Tipaza',
-'Mila',
-'Aïn Defla',
-'Naâma',
-'Aïn Témouchent',
-'Ghardaïa',
-'Relizane',
-'Timimoun',
-'Bordj Badji Mokhtar',
-'Ouled Djellal',
-'Béni Abbès',
-'In Salah',
-'In Guezzam',
-'Touggourt',
-'Djanet',
-'El M’Ghair',
-'El Meniaa'
+  document.querySelectorAll('.page')
+    .forEach(x=>x.classList.remove('active'));
 
-];
+  document.getElementById(id)
+    .classList.add('active');
 
+  document.querySelectorAll('.nav button')
+    .forEach(x=>x.classList.remove('active'));
 
-wilayas.forEach(w => {
+  button.classList.add('active');
 
-  $('clientWilaya')
-    .insertAdjacentHTML(
-      'beforeend',
-      `<option value="${esc(w)}">
-        ${esc(w)}
-      </option>`
-    );
-
-});
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-document
-.querySelectorAll('[data-page]')
-.forEach(button => {
-
-  button.addEventListener(
-    'click',
-    () => {
-
-      document
-      .querySelectorAll('.nav button')
-      .forEach(x =>
-        x.classList.remove('active')
-      );
-
-      button.classList.add('active');
-
-
-      document
-      .querySelectorAll('.page')
-      .forEach(page =>
-        page.classList.remove('active')
-      );
-
-
-      $(button.dataset.page)
-        .classList
-        .add('active');
-
-
-      if(
-        button.dataset.page ===
-        'ordersPage'
-      ){
-
-        loadOrders();
-
-      }
-
-
-      if(
-        button.dataset.page ===
-        'addOrderPage'
-      ){
-
-        renderManualProducts();
-
-      }
-
-    }
-  );
-
-});
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-$('loginForm').addEventListener(
-  'submit',
-  async e => {
-
-    e.preventDefault();
-
-
-    const result =
-      await db.auth.signInWithPassword({
-
-        email:
-          $('email').value.trim(),
-
-        password:
-          $('password').value
-
-      });
-
-
-    if(result.error){
-
-      $('loginMessage')
-        .className =
-        'message error';
-
-
-      $('loginMessage')
-        .textContent =
-        '❌ ' +
-        result.error.message;
-
-      return;
-
-    }
-
-
-    showDashboard();
-
+  if(id === 'ordersPage'){
+    loadOrders();
   }
-);
-
-
-async function showDashboard(){
-
-  $('loginScreen')
-    .classList
-    .add('hidden');
-
-
-  $('dashboard')
-    .classList
-    .remove('hidden');
-
-
-  await loadProducts();
-
-  await loadOrders();
 
 }
 
 
-async function logout(){
-
-  await db.auth.signOut();
-
-  location.reload();
-
-}
-
-
-/* =====================================================
-   PHONES
-===================================================== */
-
-const phones = [
-
-'iPhone XS',
-'iPhone XS Max',
-'iPhone XR',
-
-'iPhone 11',
-'iPhone 11 Pro',
-'iPhone 11 Pro Max',
-
-'iPhone 12 mini',
-'iPhone 12',
-'iPhone 12 Pro',
-'iPhone 12 Pro Max',
-
-'iPhone 13 mini',
-'iPhone 13',
-'iPhone 13 Pro',
-'iPhone 13 Pro Max',
-
-'iPhone 14',
-'iPhone 14 Plus',
-'iPhone 14 Pro',
-'iPhone 14 Pro Max',
-
-'iPhone 15',
-'iPhone 15 Plus',
-'iPhone 15 Pro',
-'iPhone 15 Pro Max',
-
-'iPhone 16',
-'iPhone 16 Plus',
-'iPhone 16 Pro',
-'iPhone 16 Pro Max',
-
-'iPhone 17',
-'iPhone 17 Plus',
-'iPhone 17 Pro',
-'iPhone 17 Pro Max',
-
-'iPhone Air',
-
-'iPhone 18',
-'iPhone 18 Plus',
-'iPhone 18 Pro',
-'iPhone 18 Pro Max'
-
-];
-
-
-$('iphonePhones').innerHTML =
-phones.map(phone => `
-
-  <label class="phone-row">
-
-    <input
-      type="checkbox"
-      value="${esc(phone)}"
-    >
-
-    <span>
-      ${esc(phone)}
-    </span>
-
-    <input
-      class="stock-input"
-      type="number"
-      min="0"
-      value="0"
-    >
-
-  </label>
-
-`).join('');
-
-
-$('category').addEventListener(
-  'change',
-  () => {
-
-    const isCase =
-      $('category').value === 'cases';
-
-
-    $('caseFields')
-      .classList
-      .toggle(
-        'hidden',
-        !isCase
-      );
-
-
-    $('simpleFields')
-      .classList
-      .toggle(
-        'hidden',
-        isCase
-      );
-
-  }
-);
-
-
-document
-.querySelectorAll(
-  'input[name=phoneType]'
-)
-.forEach(radio => {
-
-  radio.addEventListener(
-    'change',
-    () => {
-
-      const other =
-        document.querySelector(
-          'input[name=phoneType]:checked'
-        ).value === 'other';
-
-
-      $('iphonePhones')
-        .classList
-        .toggle(
-          'hidden',
-          other
-        );
-
-
-      $('customModel')
-        .classList
-        .toggle(
-          'hidden',
-          !other
-        );
-
-
-      $('customStock')
-        .classList
-        .toggle(
-          'hidden',
-          !other
-        );
-
-    }
-  );
-
-});
-
-
-function getStock(){
-
-  const result = {};
-
-
-  if(
-    $('category').value !==
-    'cases'
-  ){
-
-    result.stock_total =
-      Number(
-        $('simpleStock').value
-      ) || 0;
-
-    return result;
-
-  }
-
-
-  const type =
-    document.querySelector(
-      'input[name=phoneType]:checked'
-    ).value;
-
-
-  if(type === 'other'){
-
-    const model =
-      $('customModel')
-      .value
-      .trim();
-
-
-    if(model){
-
-      result[model] =
-        Number(
-          $('customStock').value
-        ) || 0;
-
-    }
-
-  }
-
-  else{
-
-    document
-    .querySelectorAll(
-      '.phone-row'
-    )
-    .forEach(row => {
-
-      const checkbox =
-        row.querySelector(
-          'input[type=checkbox]'
-        );
-
-
-      const stock =
-        row.querySelector(
-          '.stock-input'
-        );
-
-
-      if(checkbox.checked){
-
-        result[
-          checkbox.value
-        ] =
-        Number(
-          stock.value
-        ) || 0;
-
-      }
-
-    });
-
-  }
-
-
-  return result;
-
-}
-
-
-/* =====================================================
-   PHOTOS
-===================================================== */
-
-function compressImage(file){
-
-  return new Promise(
-    (resolve,reject) => {
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-      () => {
-
-        const img =
-          new Image();
-
-
-        img.onload =
-        () => {
-
-          const max = 1400;
-
-          let w =
-            img.width;
-
-          let h =
-            img.height;
-
-
-          if(
-            Math.max(w,h) > max
-          ){
-
-            if(w > h){
-
-              h =
-                Math.round(
-                  h * max / w
-                );
-
-              w = max;
-
-            }
-
-            else{
-
-              w =
-                Math.round(
-                  w * max / h
-                );
-
-              h = max;
-
-            }
-
-          }
-
-
-          const canvas =
-            document.createElement(
-              'canvas'
-            );
-
-
-          canvas.width = w;
-          canvas.height = h;
-
-
-          canvas
-          .getContext('2d')
-          .drawImage(
-            img,
-            0,
-            0,
-            w,
-            h
-          );
-
-
-          resolve(
-            canvas.toDataURL(
-              'image/jpeg',
-              .78
-            )
-          );
-
-        };
-
-
-        img.onerror = reject;
-
-        img.src =
-          reader.result;
-
-      };
-
-
-      reader.onerror = reject;
-
-      reader.readAsDataURL(file);
-
-    }
-  );
-
-}
-
-
-$('photo').addEventListener(
-  'change',
-  async e => {
-
-    photoData = [];
-
-    $('previews').innerHTML = '';
-
-
-    const files =
-      [...e.target.files]
-      .slice(0,10);
-
-
-    for(
-      const file of files
-    ){
-
-      try{
-
-        const data =
-          await compressImage(file);
-
-
-        photoData.push(data);
-
-
-        $('previews')
-          .insertAdjacentHTML(
-            'beforeend',
-            `<img
-              class="photo-preview"
-              src="${data}"
-            >`
-          );
-
-      }
-      catch(error){
-
-        console.error(error);
-
-      }
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   SAVE PRODUCT
-===================================================== */
-
-async function saveProduct(){
-
-  const name =
-    $('name')
-    .value
-    .trim();
-
-
-  const price =
-    Number(
-      $('price').value
-    );
-
-
-  const category =
-    $('category')
-    .value;
-
-
-  const stock =
-    getStock();
-
-
-  const modelKeys =
-    Object.keys(stock);
-
-
-  const urls =
-    photoData.length
-      ? photoData
-      : $('img')
-        .value
-        .split(',')
-        .map(x => x.trim())
-        .filter(Boolean);
-
-
-  if(!name){
-
-    showProductMessage(
-      '❌ Ajoute le nom du produit.',
-      true
-    );
-
-    return;
-
-  }
-
-
-  if(!price){
-
-    showProductMessage(
-      '❌ Ajoute le prix.',
-      true
-    );
-
-    return;
-
-  }
-
-
-  if(!urls.length){
-
-    showProductMessage(
-      '❌ Ajoute une photo.',
-      true
-    );
-
-    return;
-
-  }
-
-
-  if(
-    category === 'cases' &&
-    !modelKeys.length
-  ){
-
-    showProductMessage(
-      '❌ Choisis au moins un modèle.',
-      true
-    );
-
-    return;
-
-  }
-
-
-  const payload = {
-
-    nom:name,
-
-    modele:
-      category === 'cases'
-        ? modelKeys.join('||')
-        : name,
-
-    prix:price,
-
-    image_url:
-      urls.join('||'),
-
-    stock:stock,
-
-    categorie:category,
-
-    disponible:
-      Object.values(stock)
-      .some(
-        x => Number(x) > 0
-      )
-
-  };
-
-
-  let result;
-
-
-  if(editingProductId){
-
-    result =
-      await db
-      .from('coques')
-      .update(payload)
-      .eq(
-        'id',
-        editingProductId
-      );
-
-  }
-
-  else{
-
-    result =
-      await db
-      .from('coques')
-      .insert(payload);
-
-  }
-
-
-  if(result.error){
-
-    showProductMessage(
-      '❌ ' +
-      result.error.message,
-      true
-    );
-
-    return;
-
-  }
-
-
-  showProductMessage(
-    '✅ Produit enregistré.',
-    false
-  );
-
-
-  resetProductForm();
-
-  await loadProducts();
-
-}
-
-
-function showProductMessage(
-  text,
-  error
-){
-
-  $('productMessage')
-    .className =
-    'message ' +
-    (
-      error
-        ? 'error'
-        : 'success'
-    );
-
-
-  $('productMessage')
-    .textContent =
-    text;
-
-}
-
-
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
+/* PRODUCTS */
 
 async function loadProducts(){
 
-  const result =
+  const {data,error} =
     await db
-    .from('coques')
-    .select('*')
-    .order(
-      'created_at',
-      {
-        ascending:false
-      }
-    );
+      .from('coques')
+      .select('*')
+      .order(
+        'created_at',
+        {ascending:false}
+      );
 
+  if(error){
 
-  if(result.error){
-
-    $('productList')
+    document.getElementById('productList')
       .innerHTML =
-      `<div class="message error">
-        ${esc(result.error.message)}
+      `<div class="empty">
+        ❌ ${esc(error.message)}
       </div>`;
 
     return;
-
   }
 
-
-  products =
-    result.data || [];
-
+  products=data || [];
 
   renderProducts();
+
+  fillManualProducts();
 
 }
 
@@ -2433,105 +754,42 @@ function renderProducts(){
 
   if(!products.length){
 
-    $('productList')
+    document.getElementById('productList')
       .innerHTML =
       `<div class="empty">
-        📦 Aucun produit.
+        📦 Aucun produit
       </div>`;
 
     return;
-
   }
 
-
-  $('productList').innerHTML =
-    products.map(product => {
+  document.getElementById('productList')
+    .innerHTML =
+    products.map(p=>{
 
       const image =
-        images(
-          product.image_url
-        )[0] || '';
-
-
-      const stock =
-        product.stock || {};
-
-
-      const stockText =
-        Object.entries(stock)
-        .map(
-          ([model,count]) =>
-          `${esc(model)} : ${esc(count)}`
-        )
-        .join(' • ');
-
+        images(p.image_url)[0] || '';
 
       return `
 
       <div class="product">
 
-        <img
-          class="product-image"
-          src="${esc(image)}"
-          alt=""
-        >
-
+        <img src="${esc(image)}">
 
         <div class="product-info">
 
           <div class="product-name">
-
-            ${esc(product.nom)}
-
+            ${esc(p.nom)}
           </div>
 
-
-          <div class="product-price">
-
-            ${money(product.prix)}
-
+          <div class="price">
+            ${Number(p.prix || 0)
+              .toLocaleString('fr-DZ')} DA
           </div>
-
-
-          <span class="badge">
-
-            ${esc(
-              String(
-                product.categorie ||
-                'cases'
-              ).toUpperCase()
-            )}
-
-          </span>
-
-
-          <br>
 
           <small>
-
-            ${stockText || 'Stock non renseigné'}
-
+            📱 ${esc(p.modele || 'Tous modèles')}
           </small>
-
-        </div>
-
-
-        <div class="product-actions">
-
-          <button
-            class="primary"
-            onclick="editProduct('${esc(product.id)}')"
-          >
-            Modifier
-          </button>
-
-
-          <button
-            class="danger"
-            onclick="deleteProduct('${esc(product.id)}')"
-          >
-            🗑️
-          </button>
 
         </div>
 
@@ -2544,593 +802,355 @@ function renderProducts(){
 }
 
 
-/* =====================================================
-   EDIT PRODUCT
-===================================================== */
-
-function editProduct(id){
-
-  const product =
-    products.find(
-      p =>
-      String(p.id) ===
-      String(id)
-    );
-
-
-  if(!product)
-    return;
-
-
-  editingProductId =
-    product.id;
-
-
-  $('productFormTitle')
-    .textContent =
-    '✏️ Modifier le produit';
-
-
-  $('name').value =
-    product.nom || '';
-
-
-  $('price').value =
-    product.prix || '';
-
-
-  $('category').value =
-    product.categorie || 'cases';
-
-
-  $('img').value =
-    images(
-      product.image_url
-    ).join(',');
-
-
-  $('category')
-    .dispatchEvent(
-      new Event('change')
-    );
-
-
-  const stock =
-    product.stock || {};
-
-
-  document
-  .querySelectorAll(
-    '.phone-row'
-  )
-  .forEach(row => {
-
-    const checkbox =
-      row.querySelector(
-        'input[type=checkbox]'
-      );
-
-
-    const stockInput =
-      row.querySelector(
-        '.stock-input'
-      );
-
-
-    checkbox.checked =
-      stock[
-        checkbox.value
-      ] !== undefined;
-
-
-    stockInput.value =
-      stock[
-        checkbox.value
-      ] || 0;
-
-  });
-
-
-  if(
-    stock.stock_total !== undefined
-  ){
-
-    $('simpleStock').value =
-      stock.stock_total;
-
-  }
-
-
-  $('cancelProduct')
-    .classList
-    .remove('hidden');
-
-
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
-
-}
-
-
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
-
-async function deleteProduct(id){
-
-  if(
-    !confirm(
-      '⚠️ Supprimer ce produit ?'
-    )
-  )
-    return;
-
-
-  const result =
-    await db
-    .from('coques')
-    .delete()
-    .eq('id',id);
-
-
-  if(result.error){
-
-    alert(
-      '❌ ' +
-      result.error.message
-    );
-
-    return;
-
-  }
-
-
-  await loadProducts();
-
-}
-
-
-/* =====================================================
-   RESET PRODUCT
-===================================================== */
-
-function resetProductForm(){
-
-  editingProductId = null;
-
-  photoData = [];
-
-
-  $('name').value = '';
-
-  $('price').value = '';
-
-  $('img').value = '';
-
-  $('photo').value = '';
-
-  $('previews').innerHTML = '';
-
-  $('simpleStock').value = '';
-
-
-  document
-  .querySelectorAll(
-    '.phone-row input[type=checkbox]'
-  )
-  .forEach(
-    x => x.checked = false
-  );
-
-
-  document
-  .querySelectorAll(
-    '.stock-input'
-  )
-  .forEach(
-    x => x.value = 0
-  );
-
-
-  $('productFormTitle')
-    .textContent =
-    '➕ Ajouter un produit';
-
-
-  $('cancelProduct')
-    .classList
-    .add('hidden');
-
-}
-
-
-/* =====================================================
-   COMMANDES
-===================================================== */
+/* COMMANDES */
 
 async function loadOrders(){
 
-  const result =
+  const {data,error} =
     await db
-    .from('commandes')
-    .select('*')
-    .order(
-      'created_at',
-      {
-        ascending:false
-      }
-    );
+      .from('commandes')
+      .select('*')
+      .order(
+        'created_at',
+        {ascending:false}
+      );
 
+  if(error){
 
-  if(result.error){
-
-    $('orderList')
+    document.getElementById('orders')
       .innerHTML =
-      `<div class="message error">
-
-        ❌ ${esc(result.error.message)}
-
+      `<div class="card">
+        ❌ ${esc(error.message)}
       </div>`;
 
     return;
-
   }
 
+  orders=data || [];
 
-  orders =
-    result.data || [];
+  updateStats();
 
-
-  updateOrderStats();
-
-  renderOrders();
+  await renderOrders();
 
 }
 
 
-function updateOrderStats(){
+function updateStats(){
 
   const pending =
     orders.filter(
-      o =>
-      o.statut !== 'Traitée'
-    );
+      x=>x.statut !== 'Traitée'
+    ).length;
 
-
-  const processed =
+  const done =
     orders.filter(
-      o =>
-      o.statut === 'Traitée'
-    );
-
+      x=>x.statut === 'Traitée'
+    ).length;
 
   const usthb =
     orders.filter(
-      o =>
-      o.livraison === 'USTHB'
-    );
+      x=>x.livraison === 'USTHB'
+    ).length;
 
+  document.getElementById('total')
+    .textContent=orders.length;
 
-  $('totalOrders')
+  document.getElementById('pending')
+    .textContent=pending;
+
+  document.getElementById('done')
+    .textContent=done;
+
+  document.getElementById('usthb')
+    .textContent=usthb;
+
+  document.getElementById('navCount')
     .textContent =
-    orders.length;
-
-
-  $('pendingOrders')
-    .textContent =
-    pending.length;
-
-
-  $('processedOrders')
-    .textContent =
-    processed.length;
-
-
-  $('usthbOrders')
-    .textContent =
-    usthb.length;
-
-
-  $('navOrderCount')
-    .textContent =
-    pending.length
-      ? `(${pending.length})`
-      : '';
+      pending ? `(${pending})` : '';
 
 }
 
 
-$('orderSearch')
+document.getElementById('orderSearch')
 .addEventListener(
   'input',
-  renderOrders
+  ()=>renderOrders()
 );
 
 
-function renderOrders(){
+async function renderOrders(){
 
   const query =
-    $('orderSearch')
-    .value
-    .toLowerCase()
-    .trim();
-
+    document.getElementById('orderSearch')
+      .value
+      .toLowerCase()
+      .trim();
 
   const filtered =
-    orders.filter(order => {
+    orders.filter(o=>{
 
-      const text =
-        [
-
-          order.id,
-
-          order.nom,
-
-          order.prenom,
-
-          order.telephone,
-
-          order.modele,
-
-          order.adresse,
-
-          order.livraison,
-
-          order.statut
-
-        ]
-        .join(' ')
-        .toLowerCase();
-
+      const text=[
+        o.id,
+        o.nom,
+        o.prenom,
+        o.telephone,
+        o.adresse,
+        o.livraison,
+        o.statut
+      ].join(' ').toLowerCase();
 
       return text.includes(query);
 
     });
 
-
   if(!filtered.length){
 
-    $('orderList')
+    document.getElementById('orders')
       .innerHTML =
       `<div class="card empty">
-
-        🛍️
-
-        <h3>
-          Aucune commande
-        </h3>
-
+        🛍️ Aucune commande.
       </div>`;
 
     return;
-
   }
 
+  /*
+    IMPORTANT :
+    On récupère les articles de chaque commande
+    dans commande_articles.
+  */
 
-  $('orderList').innerHTML =
-    filtered
-    .map(order => {
+  const ids =
+    filtered.map(o=>o.id);
 
-      const processed =
+  const {data:articles,error} =
+    await db
+      .from('commande_articles')
+      .select('*')
+      .in('commande_id',ids);
+
+  if(error){
+
+    document.getElementById('orders')
+      .innerHTML =
+      `<div class="card">
+        ❌ Impossible de charger les articles :
+        ${esc(error.message)}
+      </div>`;
+
+    return;
+  }
+
+  const articleMap={};
+
+  (articles || []).forEach(a=>{
+
+    if(!articleMap[a.commande_id]){
+      articleMap[a.commande_id]=[];
+    }
+
+    articleMap[a.commande_id].push(a);
+
+  });
+
+
+  document.getElementById('orders')
+    .innerHTML =
+    filtered.map(order=>{
+
+      const done =
         order.statut === 'Traitée';
 
+      const items =
+        articleMap[order.id] || [];
 
       return `
 
-      <article
-        class="order ${processed ? 'processed' : ''}"
-      >
+      <article class="order ${done?'done':''}">
 
-
-        <div class="order-header">
-
+        <div class="order-head">
 
           <div>
 
-            <div class="order-number">
-
+            <div class="order-id">
               🛍️ Commande #${esc(order.id)}
-
             </div>
 
-
-            <div class="order-date">
-
-              ${dateFormat(
-                order.created_at
-              )}
-
+            <div class="date">
+              ${dateFormat(order.created_at)}
             </div>
 
           </div>
-
 
           <span
             class="status ${
-              processed
-                ? 'done'
+              done
+                ? 'done-status'
                 : 'pending'
             }"
           >
-
             ${
-              processed
+              done
                 ? '🟢 Traitée'
                 : '🟠 En attente'
             }
-
           </span>
 
-
         </div>
 
 
-        <div class="order-grid">
+        <div class="customer">
 
-
-          <div class="order-info">
-
-            <div class="order-label">
-              CLIENT
-            </div>
-
+          <div class="info">
+            <div class="label">CLIENT</div>
             <b>
-
-              ${esc(
-                order.nom || ''
-              )}
-
-              ${esc(
-                order.prenom || ''
-              )}
-
+              ${esc(order.nom)}
+              ${esc(order.prenom)}
             </b>
-
           </div>
 
-
-          <div class="order-info">
-
-            <div class="order-label">
-              TÉLÉPHONE
-            </div>
-
-            <a
-              href="tel:${esc(
-                order.telephone || ''
-              )}"
-            >
-
-              📞 ${esc(
-                order.telephone || '—'
-              )}
-
-            </a>
-
+          <div class="info">
+            <div class="label">TÉLÉPHONE</div>
+            📞 ${esc(order.telephone)}
           </div>
 
-
-          <div class="order-info">
-
-            <div class="order-label">
-              MODÈLE
-            </div>
-
-            📱 ${esc(
-              order.modele || '—'
-            )}
-
+          <div class="info">
+            <div class="label">LIVRAISON</div>
+            📦 ${esc(order.livraison)}
           </div>
 
-
-          <div class="order-info">
-
-            <div class="order-label">
-              ADRESSE
-            </div>
-
-            📍 ${esc(
-              order.adresse || '—'
-            )}
-
+          <div class="info">
+            <div class="label">ADRESSE</div>
+            📍 ${esc(order.adresse)}
           </div>
-
-
-          <div class="order-info">
-
-            <div class="order-label">
-              LIVRAISON
-            </div>
-
-            <span class="delivery">
-
-              ${esc(
-                order.livraison || '—'
-              )}
-
-            </span>
-
-          </div>
-
-
-          <div class="order-info">
-
-            <div class="order-label">
-              PRODUIT ID
-            </div>
-
-            ${esc(
-              order.coque_id || '—'
-            )}
-
-          </div>
-
 
         </div>
 
 
-        <div class="order-actions">
+        <div class="items">
 
+          <h3>
+            🛒 Articles
+            (${items.length})
+          </h3>
 
           ${
-            !processed
+            items.length
 
-              ? `
+            ?
 
-              <button
-                class="success-btn"
-                onclick="processOrder('${esc(order.id)}')"
-              >
+            items.map(item=>`
 
-                ✅ Traiter la commande
+              <div class="item">
 
-              </button>
+                <img
+                  src="${esc(item.image_url || '')}"
+                >
 
-              `
+                <div class="item-info">
 
-              : `
+                  <div class="item-name">
+                    ${esc(item.nom_produit)}
+                  </div>
 
-              <button
-                class="secondary"
-                onclick="unprocessOrder('${esc(order.id)}')"
-              >
+                  <div class="item-model">
+                    📱 ${esc(item.modele)}
+                  </div>
 
-                ↩ Remettre en attente
+                  <div class="item-model">
+                    Quantité :
+                    ${esc(item.quantite)}
+                  </div>
 
-              </button>
+                </div>
 
-              `
+                <div class="item-price">
+
+                  ${
+                    (
+                      Number(item.prix || 0) *
+                      Number(item.quantite || 1)
+                    )
+                    .toLocaleString('fr-DZ')
+                  }
+                  DA
+
+                </div>
+
+              </div>
+
+            `).join('')
+
+            :
+
+            `
+            <div class="empty">
+              ⚠️ Aucun article associé
+            </div>
+            `
+          }
+
+        </div>
+
+
+        <div class="order-total">
+
+          Total :
+          ${Number(order.total || 0)
+            .toLocaleString('fr-DZ')}
+          DA
+
+        </div>
+
+
+        <div class="actions">
+
+          ${
+            done
+
+            ?
+
+            `
+            <button
+              class="btn back"
+              onclick="unprocess('${esc(order.id)}')"
+            >
+              ↩ Remettre en attente
+            </button>
+            `
+
+            :
+
+            `
+            <button
+              class="btn process"
+              onclick="processOrder('${esc(order.id)}')"
+            >
+              ✅ Traiter
+            </button>
+            `
           }
 
 
           <button
-            class="danger"
+            class="btn delete"
             onclick="deleteOrder('${esc(order.id)}')"
           >
-
             🗑️ Supprimer
-
           </button>
 
-
         </div>
-
 
       </article>
 
       `;
 
-    })
-    .join('');
+    }).join('');
 
 }
 
 
-/* =====================================================
-   TRAITER COMMANDE
-===================================================== */
+/* TRAITER */
 
 async function processOrder(id){
 
@@ -3138,524 +1158,254 @@ async function processOrder(id){
     !confirm(
       'Marquer cette commande comme traitée ?'
     )
-  )
-    return;
+  ) return;
 
-
-  const result =
+  const {error} =
     await db
-    .from('commandes')
-    .update({
-      statut:'Traitée'
-    })
-    .eq(
-      'id',
-      id
-    );
+      .from('commandes')
+      .update({
+        statut:'Traitée'
+      })
+      .eq('id',id);
 
-
-  if(result.error){
+  if(error){
 
     alert(
-      '❌ Impossible de traiter la commande :\n' +
-      result.error.message
+      '❌ ' + error.message
     );
 
     return;
-
   }
-
 
   await loadOrders();
 
 }
 
 
-/* =====================================================
-   REMETTRE EN ATTENTE
-===================================================== */
+/* RETOUR EN ATTENTE */
 
-async function unprocessOrder(id){
+async function unprocess(id){
 
-  const result =
+  const {error} =
     await db
-    .from('commandes')
-    .update({
-      statut:'En attente'
-    })
-    .eq(
-      'id',
-      id
-    );
+      .from('commandes')
+      .update({
+        statut:'En attente'
+      })
+      .eq('id',id);
 
-
-  if(result.error){
+  if(error){
 
     alert(
-      '❌ ' +
-      result.error.message
+      '❌ ' + error.message
     );
 
     return;
-
   }
-
 
   await loadOrders();
 
 }
 
 
-/* =====================================================
-   SUPPRIMER COMMANDE
-===================================================== */
+/* SUPPRIMER */
 
 async function deleteOrder(id){
 
-  const confirmed =
-    confirm(
-      '⚠️ ATTENTION\n\n' +
-      'Voulez-vous vraiment supprimer cette commande ?\n\n' +
-      'Cette action est définitive.'
-    );
+  if(
+    !confirm(
+      '⚠️ Supprimer définitivement cette commande ?'
+    )
+  ) return;
 
+  /*
+    Grâce à ON DELETE CASCADE,
+    les articles associés sont supprimés
+    automatiquement.
+  */
 
-  if(!confirmed)
-    return;
-
-
-  const result =
+  const {error} =
     await db
-    .from('commandes')
-    .delete()
-    .eq(
-      'id',
-      id
-    );
+      .from('commandes')
+      .delete()
+      .eq('id',id);
 
-
-  if(result.error){
+  if(error){
 
     alert(
-      '❌ Impossible de supprimer la commande :\n' +
-      result.error.message
+      '❌ ' + error.message
     );
 
     return;
-
   }
-
 
   await loadOrders();
 
 }
 
 
-/* =====================================================
-   PRODUITS POUR COMMANDE MANUELLE
-===================================================== */
+/* AJOUT MANUEL */
 
-function renderManualProducts(){
+function fillManualProducts(){
 
-  if(!products.length){
+  const select =
+    document.getElementById('aProduct');
 
-    $('manualProducts')
-      .innerHTML =
-      '<p>Aucun produit disponible.</p>';
+  select.innerHTML =
+    '<option value="">Choisir un produit</option>';
 
-    return;
+  products.forEach(p=>{
 
-  }
-
-
-  $('manualProducts').innerHTML =
-    products
-    .filter(
-      p =>
-      p.disponible !== false
-    )
-    .map(product => {
-
-      const image =
-        images(
-          product.image_url
-        )[0] || '';
-
-
-      return `
-
-      <label
-        class="product-choice"
-        data-product-id="${esc(product.id)}"
-        onclick="selectManualProduct('${esc(product.id)}')"
-      >
-
-        <input
-          type="radio"
-          name="manualProduct"
-          value="${esc(product.id)}"
-        >
-
-        <img
-          src="${esc(image)}"
-          alt=""
-        >
-
-        <div>
-
-          <b>
-            ${esc(product.nom)}
-          </b>
-
-          <br>
-
-          <span
-            style="color:#d94f8b;font-weight:bold"
-          >
-
-            ${money(product.prix)}
-
-          </span>
-
-        </div>
-
-      </label>
-
-      `;
-
-    })
-    .join('');
-
-}
-
-
-function selectManualProduct(id){
-
-  selectedManualProduct =
-    products.find(
-      p =>
-      String(p.id) ===
-      String(id)
+    select.insertAdjacentHTML(
+      'beforeend',
+      `<option value="${esc(p.id)}">
+        ${esc(p.nom)}
+      </option>`
     );
-
-
-  if(!selectedManualProduct)
-    return;
-
-
-  document
-  .querySelectorAll(
-    '.product-choice'
-  )
-  .forEach(
-    x =>
-    x.classList.remove('selected')
-  );
-
-
-  const selected =
-    document.querySelector(
-      `[data-product-id="${CSS.escape(String(id))}"]`
-    );
-
-
-  if(selected)
-    selected.classList.add('selected');
-
-
-  updateManualModels();
-
-  updateManualTotal();
-
-}
-
-
-function updateManualModels(){
-
-  $('clientModele').innerHTML =
-    '<option value="">Choisir le modèle</option>';
-
-
-  if(!selectedManualProduct)
-    return;
-
-
-  const list =
-    models(
-      selectedManualProduct.modele
-    );
-
-
-  list.forEach(model => {
-
-    $('clientModele')
-      .insertAdjacentHTML(
-        'beforeend',
-        `<option value="${esc(model)}">
-          ${esc(model)}
-        </option>`
-      );
 
   });
 
-
-  if(!list.length){
-
-    $('clientModele')
-      .insertAdjacentHTML(
-        'beforeend',
-        `<option value="${esc(
-          selectedManualProduct.nom
-        )}">
-          ${esc(
-            selectedManualProduct.nom
-          )}
-        </option>`
-      );
-
-  }
-
 }
 
 
-/* =====================================================
-   TOTAL COMMANDE
-===================================================== */
+async function addManualOrder(){
 
-function deliveryPrice(){
+  const productId =
+    document.getElementById('aProduct').value;
 
-  const delivery =
-    $('clientLivraison')
-    .value;
-
-
-  if(delivery === 'USTHB')
-    return 0;
-
-
-  if(delivery === 'Bureau')
-    return 500;
-
-
-  if(delivery === 'Domicile')
-    return 700;
-
-
-  return 0;
-
-}
-
-
-$('clientLivraison')
-.addEventListener(
-  'change',
-  updateManualTotal
-);
-
-
-function updateManualTotal(){
-
-  const productPrice =
-    Number(
-      selectedManualProduct?.prix || 0
+  const product =
+    products.find(
+      p=>String(p.id) === String(productId)
     );
 
+  if(!product){
 
-  const delivery =
-    deliveryPrice();
-
-
-  $('manualTotal')
-    .textContent =
-    money(
-      productPrice +
-      delivery
-    );
-
-}
-
-
-/* =====================================================
-   SAVE MANUAL ORDER
-===================================================== */
-
-async function saveManualOrder(){
-
-  if(!selectedManualProduct){
-
-    showManualMessage(
+    showAddMessage(
       '❌ Choisis un produit.',
       true
     );
 
     return;
-
   }
-
 
   const nom =
-    $('clientNom')
-    .value
-    .trim();
-
+    document.getElementById('aNom').value.trim();
 
   const prenom =
-    $('clientPrenom')
-    .value
-    .trim();
-
+    document.getElementById('aPrenom').value.trim();
 
   const telephone =
-    $('clientTelephone')
-    .value
-    .trim();
-
-
-  const wilaya =
-    $('clientWilaya')
-    .value;
-
+    document.getElementById('aTelephone').value.trim();
 
   const livraison =
-    $('clientLivraison')
-    .value;
-
+    document.getElementById('aLivraison').value;
 
   const adresse =
-    $('clientAdresse')
-    .value
-    .trim();
-
+    document.getElementById('aAdresse').value.trim();
 
   const modele =
-    $('clientModele')
-    .value;
+    document.getElementById('aModel').value.trim();
+
+  const price =
+    Number(
+      document.getElementById('aPrice').value
+    ) || Number(product.prix || 0);
 
 
-  if(
-    !nom ||
-    !prenom ||
-    !telephone ||
-    !wilaya ||
-    !livraison ||
-    !modele
-  ){
+  if(!nom || !prenom ||
+     !telephone ||
+     !livraison ||
+     !modele){
 
-    showManualMessage(
-      '❌ Remplis tous les champs obligatoires.',
+    showAddMessage(
+      '❌ Remplis tous les champs.',
       true
     );
 
     return;
-
   }
 
 
-  if(
-    livraison === 'Domicile' &&
-    !adresse
-  ){
-
-    showManualMessage(
-      '❌ Ajoute l’adresse.',
-      true
-    );
-
-    return;
-
-  }
-
-
-  const finalAddress =
-    livraison === 'Domicile'
-      ? `${adresse} — ${wilaya}`
-      : wilaya;
-
-
-  const payload = {
-
-    coque_id:
-      selectedManualProduct.id,
-
-    modele:
-      modele,
-
-    nom:
-      nom,
-
-    prenom:
-      prenom,
-
-    telephone:
-      telephone,
-
-    adresse:
-      finalAddress,
-
-    livraison:
-      livraison,
-
-    statut:
-      'En attente',
-
-    created_at:
-      new Date().toISOString()
-
-  };
-
-
-  const result =
+  const {data:order,error} =
     await db
-    .from('commandes')
-    .insert(payload);
+      .from('commandes')
+      .insert({
+
+        nom,
+        prenom,
+        telephone,
+        adresse,
+        livraison,
+        statut:'En attente',
+        total:price
+
+      })
+      .select()
+      .single();
 
 
-  if(result.error){
+  if(error){
 
-    showManualMessage(
-      '❌ ' +
-      result.error.message,
+    showAddMessage(
+      '❌ ' + error.message,
       true
     );
 
     return;
-
   }
 
 
-  showManualMessage(
-    '✅ Commande ajoutée avec succès !',
+  const {error:itemError} =
+    await db
+      .from('commande_articles')
+      .insert({
+
+        commande_id:order.id,
+
+        produit_id:product.id,
+
+        nom_produit:product.nom,
+
+        modele,
+
+        prix:price,
+
+        quantite:1,
+
+        image_url:
+          images(product.image_url)[0] || ''
+
+      });
+
+
+  if(itemError){
+
+    await db
+      .from('commandes')
+      .delete()
+      .eq('id',order.id);
+
+    showAddMessage(
+      '❌ ' + itemError.message,
+      true
+    );
+
+    return;
+  }
+
+
+  showAddMessage(
+    '✅ Commande ajoutée !',
     false
   );
 
 
-  $('clientNom').value = '';
-
-  $('clientPrenom').value = '';
-
-  $('clientTelephone').value = '';
-
-  $('clientWilaya').value = '';
-
-  $('clientAdresse').value = '';
-
-  $('clientLivraison').value = '';
-
-  $('clientModele').innerHTML =
-    '<option value="">Choisir le modèle</option>';
-
-
-  selectedManualProduct = null;
-
-
-  document
-  .querySelectorAll(
-    '.product-choice'
-  )
-  .forEach(
-    x =>
-    x.classList.remove('selected')
-  );
+  document.getElementById('aNom').value='';
+  document.getElementById('aPrenom').value='';
+  document.getElementById('aTelephone').value='';
+  document.getElementById('aAdresse').value='';
+  document.getElementById('aModel').value='';
+  document.getElementById('aPrice').value='';
 
 
   await loadOrders();
@@ -3663,69 +1413,34 @@ async function saveManualOrder(){
 }
 
 
-function showManualMessage(
-  text,
-  error
-){
+function showAddMessage(text,error){
 
-  $('manualMessage')
-    .className =
-    'message ' +
-    (
-      error
-        ? 'error'
-        : 'success'
-    );
+  const el =
+    document.getElementById('addMessage');
 
+  el.className =
+    error
+      ? 'delete btn'
+      : 'process btn';
 
-  $('manualMessage')
-    .textContent =
-    text;
+  el.textContent=text;
 
 }
 
 
-/* =====================================================
-   AUTO LOGIN
-===================================================== */
+/* START */
 
-(async function(){
-
-  const result =
-    await db.auth.getSession();
+loadProducts();
+loadOrders();
 
 
-  if(
-    result.data?.session
-  ){
-
-    showDashboard();
-
-  }
-
-})();
-
-
-/* =====================================================
-   REALTIME / REFRESH
-===================================================== */
+/*
+  Actualisation automatique des commandes.
+  Toutes les 15 secondes.
+*/
 
 setInterval(
-  async () => {
-
-    const session =
-      await db.auth.getSession();
-
-
-    if(
-      session.data?.session
-    ){
-
-      await loadOrders();
-
-    }
-
-  },
+  loadOrders,
   15000
 );
 
