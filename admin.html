@@ -2,117 +2,249 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Admin — USTHB Cases</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  background:#fff7fb;
-  font-family:Arial,sans-serif;
-  color:#4b3040;
+  font-family:Inter,Arial,sans-serif;
+  background:#fff6fa;
+  color:#49313d;
 }
 
-.hidden{display:none!important}
+/* =========================
+   GLOBAL
+========================= */
 
-.wrap{
-  max-width:1150px;
-  margin:auto;
-  padding:20px;
-}
-
-h1,h2,h3{
-  color:#d94f8b;
-}
-
-a{
-  color:#d94f8b;
-  text-decoration:none;
-}
-
-/* LOGIN */
-
-.login-box{
-  max-width:450px;
-  margin:60px auto;
-  background:white;
-  padding:30px;
-  border-radius:25px;
-  box-shadow:0 5px 25px #e8bfd0;
-}
-
-input,select,textarea{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  border:1px solid #efb5cc;
-  border-radius:12px;
-  font-size:15px;
-  outline:none;
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
+.hidden{
+  display:none!important;
 }
 
 button{
   border:0;
+  cursor:pointer;
+  font-weight:700;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #efc3d4;
+  border-radius:13px;
+  padding:13px;
+  font-size:15px;
+  background:white;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#df5f96;
+  box-shadow:0 0 0 3px #fbe0eb;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.primary{
   background:#d94f8b;
   color:white;
   padding:12px 18px;
   border-radius:12px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{
-  opacity:.9;
 }
 
 .secondary{
   background:white;
   color:#d94f8b;
   border:1px solid #d94f8b;
+  padding:11px 17px;
+  border-radius:12px;
 }
 
-/* NAVIGATION */
+.danger{
+  background:#fff0f2;
+  color:#c43f63;
+  border:1px solid #f1a7bb;
+  padding:11px 16px;
+  border-radius:12px;
+}
 
-.topbar{
-  background:white;
-  border-radius:20px;
-  box-shadow:0 4px 18px #e8bfd0;
-  padding:10px;
-  margin:20px 0;
+.success-btn{
+  background:#e6faed;
+  color:#23824b;
+  border:1px solid #9ad8b1;
+  padding:11px 16px;
+  border-radius:12px;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+  min-height:100vh;
   display:flex;
   align-items:center;
-  gap:8px;
-  position:sticky;
-  top:10px;
-  z-index:20;
+  justify-content:center;
+  padding:20px;
+  background:linear-gradient(
+    135deg,
+    #fff1f7,
+    #ffe0ed
+  );
 }
 
-.nav-btn{
+.login-box{
+  width:100%;
+  max-width:430px;
   background:white;
-  color:#765466;
-  border:0;
-  padding:12px 16px;
+  padding:35px;
+  border-radius:28px;
+  box-shadow:0 15px 50px rgba(191,70,119,.18);
 }
 
-.nav-btn.active{
+.logo{
+  width:65px;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffe0ed;
+  border-radius:20px;
+  font-size:30px;
+  margin-bottom:15px;
+}
+
+.login-box h1{
+  color:#d94f8b;
+  margin:0 0 8px;
+}
+
+.login-box p{
+  color:#8a6a78;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+  min-height:100vh;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:white;
+  border-bottom:1px solid #f2d5e1;
+  box-shadow:0 5px 20px rgba(80,30,50,.07);
+}
+
+.topbar-inner{
+  max-width:1250px;
+  margin:auto;
+  padding:13px 20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:190px;
+}
+
+.brand-icon{
+  width:43px;
+  height:43px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffe1ed;
+  border-radius:13px;
+  font-size:21px;
+}
+
+.brand-title{
+  font-weight:900;
+  color:#d94f8b;
+}
+
+.brand-sub{
+  font-size:11px;
+  color:#9b7888;
+}
+
+.nav{
+  display:flex;
+  gap:5px;
+  flex:1;
+}
+
+.nav button{
+  background:white;
+  color:#765765;
+  padding:11px 14px;
+  border-radius:11px;
+  white-space:nowrap;
+}
+
+.nav button:hover{
+  background:#fff0f6;
+}
+
+.nav button.active{
   background:#d94f8b;
   color:white;
 }
 
-.logout{
-  margin-left:auto;
+.admin-user{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  background:#fff5f9;
+  padding:7px 11px;
+  border-radius:13px;
+  white-space:nowrap;
 }
 
-/* PAGES */
+.admin-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#d94f8b;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.main{
+  max-width:1250px;
+  margin:auto;
+  padding:28px 20px;
+}
 
 .page{
   display:none;
@@ -122,56 +254,112 @@ button:hover{
   display:block;
 }
 
-.box{
-  background:white;
-  padding:22px;
-  border-radius:20px;
-  box-shadow:0 4px 18px #e8bfd0;
-  margin-bottom:20px;
+.page-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
 }
 
-/* STATS */
+.page-title h1{
+  margin:0;
+  color:#d94f8b;
+}
+
+.page-title p{
+  margin:5px 0 0;
+  color:#92717f;
+}
+
+/* =========================
+   STATS
+========================= */
 
 .stats{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
 .stat{
   background:white;
+  border:1px solid #f2dce5;
+  border-radius:20px;
   padding:20px;
-  border-radius:18px;
-  text-align:center;
-  box-shadow:0 4px 15px #edd7e0;
+  box-shadow:0 5px 18px rgba(90,30,55,.05);
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff0f6;
+  border-radius:13px;
+  font-size:20px;
 }
 
 .stat-number{
   font-size:30px;
-  font-weight:bold;
+  font-weight:900;
+  color:#d94f8b;
+  margin-top:12px;
+}
+
+.stat-label{
+  color:#92717f;
+  font-size:13px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+  background:white;
+  border:1px solid #f1dbe5;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 5px 18px rgba(90,30,55,.05);
+}
+
+.card h2{
+  margin-top:0;
   color:#d94f8b;
 }
 
-/* PRODUCTS */
+/* =========================
+   PRODUCTS
+========================= */
 
 .product{
   display:flex;
   align-items:center;
   gap:15px;
-  border-bottom:1px solid #f2d9e4;
   padding:15px 0;
+  border-bottom:1px solid #f4e2e9;
 }
 
 .product:last-child{
   border-bottom:0;
 }
 
-.product img{
-  width:75px;
-  height:75px;
+.product-image{
+  width:78px;
+  height:78px;
   object-fit:cover;
-  border-radius:14px;
+  border-radius:15px;
+  background:#fff0f6;
 }
 
 .product-info{
@@ -179,237 +367,298 @@ button:hover{
 }
 
 .product-name{
-  font-size:18px;
-  font-weight:bold;
+  font-size:17px;
+  font-weight:800;
+}
+
+.product-price{
+  color:#d94f8b;
+  font-weight:800;
+  margin-top:4px;
 }
 
 .badge{
   display:inline-block;
-  background:#fff0f6;
-  color:#d94f8b;
-  padding:5px 10px;
+  padding:5px 9px;
   border-radius:999px;
-  font-size:12px;
-  font-weight:bold;
-  margin-top:5px;
+  background:#fff0f6;
+  color:#c63f78;
+  font-size:11px;
+  font-weight:800;
+  margin-top:6px;
 }
 
-.actions{
+.product-actions{
   display:flex;
   gap:7px;
 }
 
-/* PRODUCT FORM */
-
-.phones{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  margin-top:10px;
-}
-
-.phone{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  background:#fff7fb;
-  border:1px solid #efb5cc;
-  padding:9px;
-  border-radius:10px;
-}
-
-.phone input[type=checkbox]{
-  width:auto;
-  margin:0;
-}
-
-.stock{
-  width:75px!important;
-  margin:0!important;
-  padding:7px!important;
-}
-
-.custom{
-  display:none;
-}
-
-.custom.show{
-  display:block;
-}
-
-.preview{
-  width:75px;
-  height:75px;
-  object-fit:cover;
-  border-radius:12px;
-  margin:5px;
-}
-
-.photoHint{
-  font-size:13px;
-  color:#8a6677;
-}
-
-/* COMMANDES */
-
-.order{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 4px 18px #e8bfd0;
-  margin-bottom:15px;
-  border-left:5px solid #d94f8b;
-}
-
-.order-header{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.order-id{
-  background:#fff0f6;
-  color:#d94f8b;
-  padding:7px 12px;
-  border-radius:999px;
-  font-weight:bold;
-}
-
-.order-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:15px;
-}
-
-.info{
-  background:#fff7fb;
-  padding:12px;
-  border-radius:12px;
-}
-
-.info-label{
-  font-size:12px;
-  color:#896c7a;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-
-.delivery{
-  display:inline-block;
-  background:#ffe5f0;
-  color:#b6376e;
-  padding:7px 12px;
-  border-radius:999px;
-  font-weight:bold;
-}
-
-/* ADD ORDER */
+/* =========================
+   PRODUCT FORM
+========================= */
 
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:15px;
 }
 
 .full{
   grid-column:1/-1;
 }
 
-.product-select{
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.phone-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.phone-row{
+  background:#fff7fa;
+  border:1px solid #efd2df;
+  padding:9px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.phone-row input[type=checkbox]{
+  width:auto;
+}
+
+.stock-input{
+  width:70px!important;
+  margin-left:auto;
+  padding:7px!important;
+}
+
+.photo-preview{
+  width:75px;
+  height:75px;
+  object-fit:cover;
+  border-radius:13px;
+  margin:5px;
+}
+
+/* =========================
+   ORDERS
+========================= */
+
+.order{
+  background:white;
+  border:1px solid #f1d8e3;
+  border-radius:20px;
+  margin-bottom:15px;
+  padding:20px;
+  box-shadow:0 5px 18px rgba(90,30,55,.05);
+  border-left:5px solid #d94f8b;
+}
+
+.order.processed{
+  border-left-color:#48a66b;
+  background:#fbfffc;
+}
+
+.order-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+}
+
+.order-number{
+  font-size:18px;
+  font-weight:900;
+  color:#d94f8b;
+}
+
+.order-date{
+  font-size:12px;
+  color:#967783;
+  margin-top:4px;
+}
+
+.status{
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.status.pending{
+  background:#fff2dc;
+  color:#a86b18;
+}
+
+.status.done{
+  background:#e5f8ec;
+  color:#267b48;
+}
+
+.order-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.order-info{
+  background:#fff7fa;
+  padding:12px;
+  border-radius:13px;
+}
+
+.order-label{
+  font-size:10px;
+  font-weight:900;
+  color:#987583;
+  margin-bottom:5px;
+}
+
+.delivery{
+  display:inline-block;
+  background:#ffe5ef;
+  color:#bd3e72;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.order-actions{
+  display:flex;
+  gap:8px;
+  margin-top:17px;
+  padding-top:15px;
+  border-top:1px solid #f2dce5;
+}
+
+/* =========================
+   ADD ORDER
+========================= */
+
+.product-choice{
   display:flex;
   align-items:center;
   gap:12px;
-  background:#fff7fb;
   padding:12px;
-  border:2px solid transparent;
+  border:2px solid #f1d8e3;
   border-radius:15px;
-  margin:8px 0;
+  margin-bottom:8px;
   cursor:pointer;
 }
 
-.product-select.selected{
+.product-choice.selected{
   border-color:#d94f8b;
+  background:#fff4f8;
 }
 
-.product-select img{
-  width:60px;
-  height:60px;
+.product-choice input{
+  width:auto;
+}
+
+.product-choice img{
+  width:55px;
+  height:55px;
   object-fit:cover;
   border-radius:10px;
 }
 
-.product-select input{
-  width:auto;
-}
-
-.total-box{
-  background:#fff0f6;
-  padding:18px;
-  border-radius:16px;
-  margin-top:15px;
-}
-
 .total{
+  margin-top:20px;
+  background:#fff0f6;
+  padding:20px;
+  border-radius:16px;
+}
+
+.total strong{
   color:#d94f8b;
-  font-size:24px;
-  font-weight:bold;
+  font-size:25px;
 }
 
-.msg{
-  padding:12px;
+/* =========================
+   MESSAGES
+========================= */
+
+.message{
+  margin-top:15px;
+  padding:13px;
   border-radius:12px;
-  margin-top:12px;
 }
 
-.success{
-  background:#e8fff0;
-  color:#237344;
+.message.success{
+  background:#e6faed;
+  color:#267b48;
 }
 
-.error{
-  background:#ffe6ee;
-  color:#9b3159;
+.message.error{
+  background:#ffe8ef;
+  color:#a62f56;
 }
 
 .empty{
+  padding:45px;
   text-align:center;
-  padding:50px 20px;
-  background:white;
-  border-radius:20px;
-  box-shadow:0 4px 18px #e8bfd0;
+  color:#987783;
 }
 
-.search{
-  margin-bottom:15px;
-}
+/* =========================
+   MOBILE
+========================= */
 
-/* RESPONSIVE */
+@media(max-width:900px){
 
-@media(max-width:700px){
+  .topbar-inner{
+    flex-wrap:wrap;
+  }
 
-  .topbar{
+  .brand{
+    width:100%;
+  }
+
+  .nav{
+    order:3;
+    width:100%;
     overflow-x:auto;
-    justify-content:flex-start;
   }
 
-  .nav-btn{
-    white-space:nowrap;
-    padding:10px 12px;
-  }
-
-  .logout{
-    margin-left:0;
+  .admin-user{
+    margin-left:auto;
   }
 
   .stats{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .phones{
-    grid-template-columns:1fr;
+  .order-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .main{
+    padding:18px 12px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    padding:15px;
+  }
+
+  .stat-number{
+    font-size:24px;
   }
 
   .form-grid{
@@ -420,8 +669,16 @@ button:hover{
     grid-column:auto;
   }
 
+  .phone-grid{
+    grid-template-columns:1fr;
+  }
+
   .order-grid{
     grid-template-columns:1fr;
+  }
+
+  .order-header{
+    flex-direction:column;
   }
 
   .product{
@@ -429,604 +686,816 @@ button:hover{
     flex-wrap:wrap;
   }
 
-  .actions{
+  .product-actions{
     width:100%;
   }
 
-  .actions button{
+  .product-actions button{
     flex:1;
   }
+
+  .order-actions{
+    flex-direction:column;
+  }
+
+  .order-actions button{
+    width:100%;
+  }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="wrap">
 
-<a href="index.html">← Retour à la boutique</a>
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-<h1>🎀 USTHB CASES — ADMIN</h1>
+<div id="loginScreen" class="login-screen">
+
+  <div class="login-box">
+
+    <div class="logo">
+      🎀
+    </div>
+
+    <h1>USTHB CASES</h1>
+
+    <p>
+      Connexion à ton espace administrateur.
+    </p>
+
+    <form id="loginForm">
+
+      <div class="field">
+
+        <label>Email</label>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="Email admin"
+          required
+        >
+
+      </div>
+
+      <br>
+
+      <div class="field">
+
+        <label>Mot de passe</label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Mot de passe"
+          required
+        >
+
+      </div>
+
+      <br>
+
+      <button
+        class="primary"
+        style="width:100%"
+        type="submit"
+      >
+        🔐 Se connecter
+      </button>
+
+      <div
+        id="loginMessage"
+        class="message hidden"
+      ></div>
+
+    </form>
+
+  </div>
+
+</div>
 
 
-<!-- ================= LOGIN ================= -->
-
-<div id="loginPage" class="login-box">
-
-<h2>🔐 Connexion Admin</h2>
-
-<p>
-Connecte-toi pour gérer tes produits et tes commandes.
-</p>
-
-<form id="loginForm">
-
-<input
-id="email"
-type="email"
-placeholder="Email admin"
-required
->
-
-<input
-id="password"
-type="password"
-placeholder="Mot de passe"
-required
->
-
-<button
-type="submit"
-style="width:100%"
->
-Se connecter
-</button>
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
 
 <div
-id="loginMsg"
-class="msg hidden">
-</div>
-
-</form>
-
-</div>
-
-
-<!-- ================= ADMIN ================= -->
-
-<div id="adminPage" class="hidden">
-
-
-<!-- NAVIGATION -->
-
-<nav class="topbar">
-
-<button
-class="nav-btn active"
-data-page="productsPage"
+  id="dashboard"
+  class="dashboard hidden"
 >
-📦 Produits
-</button>
-
-<button
-class="nav-btn"
-data-page="ordersPage"
->
-🛍️ Commandes
-</button>
-
-<button
-class="nav-btn"
-data-page="addOrderPage"
->
-➕ Ajouter une commande
-</button>
-
-<button
-class="nav-btn logout secondary"
-onclick="logout()"
->
-Déconnexion
-</button>
-
-</nav>
 
 
-<!-- ================= PRODUITS ================= -->
+<!-- TOP BAR -->
+
+<header class="topbar">
+
+  <div class="topbar-inner">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        🎀
+      </div>
+
+      <div>
+
+        <div class="brand-title">
+          USTHB CASES
+        </div>
+
+        <div class="brand-sub">
+          ADMIN DASHBOARD
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+      <button
+        class="active"
+        data-page="productsPage"
+      >
+        📦 Produits
+      </button>
+
+      <button
+        data-page="ordersPage"
+      >
+        🛍️ Commandes
+        <span
+          id="navOrderCount"
+        ></span>
+      </button>
+
+      <button
+        data-page="addOrderPage"
+      >
+        ➕ Ajouter une commande
+      </button>
+
+    </nav>
+
+
+    <div class="admin-user">
+
+      <div class="admin-avatar">
+        A
+      </div>
+
+      <span>
+        Admin
+      </span>
+
+      <button
+        class="secondary"
+        onclick="logout()"
+        style="padding:7px 10px"
+      >
+        ↪
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="main">
+
+
+<!-- =====================================================
+     PRODUITS
+===================================================== -->
 
 <section
-id="productsPage"
-class="page active"
+  id="productsPage"
+  class="page active"
 >
 
-<div class="box">
+  <div class="page-title">
 
-<h2 id="productFormTitle">
-➕ Ajouter un produit
-</h2>
+    <div>
 
+      <h1>📦 Produits</h1>
 
-<input
-id="name"
-placeholder="Nom du produit"
->
+      <p>
+        Gère tes coques et tes produits.
+      </p>
 
+    </div>
 
-<label>
-<b>Catégorie</b>
-</label>
+    <button
+      class="secondary"
+      onclick="loadProducts()"
+    >
+      ↻ Actualiser
+    </button>
 
-<select id="category">
-
-<option value="cases">
-📱 CASES — Coques téléphone
-</option>
-
-<option value="accessoires">
-✨ ACCESSOIRES
-</option>
-
-<option value="ventouses">
-🚗 VENTOUSES
-</option>
-
-<option value="ipad">
-📱 IPAD
-</option>
-
-</select>
+  </div>
 
 
-<input
-id="price"
-type="number"
-min="0"
-placeholder="Prix en DA"
->
+  <div class="card">
+
+    <h2 id="productFormTitle">
+      ➕ Ajouter un produit
+    </h2>
 
 
-<div id="caseFields">
-
-<h3>
-📱 Modèles iPhone + stock
-</h3>
-
-<div
-id="iphonePhones"
-class="phones">
-</div>
+    <div class="form-grid">
 
 
-<div style="margin-top:12px">
+      <div class="field">
 
-<label>
-<input
-type="radio"
-name="phoneType"
-value="iphone"
-checked
->
-iPhone
-</label>
+        <label>
+          Nom du produit
+        </label>
 
-<label style="margin-left:15px">
+        <input
+          id="name"
+          placeholder="Ex : Coque Cherry"
+        >
 
-<input
-type="radio"
-name="phoneType"
-value="other"
->
-Autre modèle
-
-</label>
-
-</div>
+      </div>
 
 
-<input
-id="customModel"
-class="custom"
-placeholder="Écris le modèle"
->
+      <div class="field">
+
+        <label>
+          Prix
+        </label>
+
+        <input
+          id="price"
+          type="number"
+          min="0"
+          placeholder="Ex : 1200"
+        >
+
+      </div>
 
 
-<input
-id="customStock"
-class="custom"
-type="number"
-min="0"
-placeholder="Stock"
->
+      <div class="field full">
 
-</div>
+        <label>
+          Catégorie
+        </label>
 
+        <select id="category">
 
-<div id="simpleFields" class="hidden">
+          <option value="cases">
+            📱 Coques
+          </option>
 
-<h3>
-📦 Quantité en stock
-</h3>
+          <option value="accessoires">
+            ✨ Accessoires
+          </option>
 
-<input
-id="simpleStockValue"
-type="number"
-min="0"
-placeholder="Ex : 5"
->
+          <option value="ventouses">
+            🚗 Ventouses
+          </option>
 
-</div>
+          <option value="ipad">
+            📱 iPad
+          </option>
 
+        </select>
 
-<h3>
-📸 Photos
-</h3>
-
-<input
-id="photo"
-type="file"
-accept="image/*"
-multiple
->
-
-<div class="photoHint">
-
-Plusieurs photos possibles.
-
-<span id="photoCount"></span>
-
-</div>
-
-<div id="previews"></div>
+      </div>
 
 
-<input
-id="img"
-placeholder="Ou URL(s), séparées par une virgule"
->
+      <div
+        id="caseFields"
+        class="full"
+      >
+
+        <label>
+          <b>📱 Modèles iPhone et stock</b>
+        </label>
+
+        <br>
+
+        <div
+          id="iphonePhones"
+          class="phone-grid"
+        ></div>
 
 
-<button
-onclick="saveProduct()"
-type="button"
->
-💾 Enregistrer le produit
-</button>
+        <br>
+
+        <label>
+
+          <input
+            type="radio"
+            name="phoneType"
+            value="iphone"
+            checked
+            style="width:auto"
+          >
+
+          iPhone
+
+        </label>
 
 
-<button
-id="cancelProduct"
-onclick="resetProductForm()"
-type="button"
-class="secondary hidden"
->
-Annuler
-</button>
+        <label style="margin-left:20px">
+
+          <input
+            type="radio"
+            name="phoneType"
+            value="other"
+            style="width:auto"
+          >
+
+          Autre modèle
+
+        </label>
 
 
-<div
-id="productMsg"
-class="msg hidden">
-</div>
+        <input
+          id="customModel"
+          class="hidden"
+          placeholder="Écris le modèle"
+          style="margin-top:10px"
+        >
 
-</div>
+
+        <input
+          id="customStock"
+          class="hidden"
+          type="number"
+          min="0"
+          placeholder="Stock"
+          style="margin-top:10px"
+        >
+
+      </div>
 
 
-<div class="box">
+      <div
+        id="simpleFields"
+        class="full hidden"
+      >
 
-<div class="order-header">
+        <label>
+          Stock
+        </label>
 
-<h2>
-📦 Mes produits
-</h2>
+        <input
+          id="simpleStock"
+          type="number"
+          min="0"
+          placeholder="Quantité"
+        >
 
-<button
-class="secondary"
-onclick="loadProducts()"
->
-↻ Actualiser
-</button>
+      </div>
 
-</div>
 
-<div id="productList">
-Chargement…
-</div>
+      <div class="field full">
 
-</div>
+        <label>
+          📸 Photos
+        </label>
+
+        <input
+          id="photo"
+          type="file"
+          accept="image/*"
+          multiple
+        >
+
+        <div id="previews"></div>
+
+        <input
+          id="img"
+          placeholder="Ou URLs séparées par une virgule"
+          style="margin-top:10px"
+        >
+
+      </div>
+
+
+    </div>
+
+
+    <br>
+
+    <button
+      class="primary"
+      onclick="saveProduct()"
+    >
+      💾 Enregistrer le produit
+    </button>
+
+    <button
+      id="cancelProduct"
+      class="secondary hidden"
+      onclick="resetProductForm()"
+      style="margin-left:8px"
+    >
+      Annuler
+    </button>
+
+
+    <div
+      id="productMessage"
+      class="message hidden"
+    ></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="page-title">
+
+      <h2>
+        Mes produits
+      </h2>
+
+    </div>
+
+    <div id="productList">
+      Chargement...
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- ================= COMMANDES ================= -->
+<!-- =====================================================
+     COMMANDES
+===================================================== -->
 
 <section
-id="ordersPage"
-class="page"
+  id="ordersPage"
+  class="page"
 >
 
-<div class="stats">
+  <div class="page-title">
 
-<div class="stat">
+    <div>
 
-<div
-id="orderCount"
-class="stat-number">
-0
-</div>
+      <h1>🛍️ Commandes clientes</h1>
 
-Commandes
+      <p>
+        Toutes les commandes reçues apparaissent ici.
+      </p>
 
-</div>
+    </div>
 
+    <button
+      class="secondary"
+      onclick="loadOrders()"
+    >
+      ↻ Actualiser
+    </button>
 
-<div class="stat">
-
-<div
-id="homeCount"
-class="stat-number">
-0
-</div>
-
-Domicile
-
-</div>
+  </div>
 
 
-<div class="stat">
+  <div class="stats">
 
-<div
-id="usthbCount"
-class="stat-number">
-0
-</div>
+    <div class="stat">
 
-USTHB
+      <div class="stat-top">
 
-</div>
+        <div>
+          <div class="stat-label">
+            TOTAL
+          </div>
 
-</div>
+          <div
+            id="totalOrders"
+            class="stat-number"
+          >
+            0
+          </div>
+        </div>
 
+        <div class="stat-icon">
+          🛍️
+        </div>
 
-<div class="box">
+      </div>
 
-<div class="order-header">
-
-<h2>
-🛍️ Commandes clientes
-</h2>
-
-<button
-class="secondary"
-onclick="loadOrders()"
->
-↻ Actualiser
-</button>
-
-</div>
+    </div>
 
 
-<input
-id="orderSearch"
-class="search"
-placeholder="🔎 Rechercher une commande, nom, téléphone..."
->
+    <div class="stat">
+
+      <div class="stat-top">
+
+        <div>
+
+          <div class="stat-label">
+            EN ATTENTE
+          </div>
+
+          <div
+            id="pendingOrders"
+            class="stat-number"
+          >
+            0
+          </div>
+
+        </div>
+
+        <div class="stat-icon">
+          🟠
+        </div>
+
+      </div>
+
+    </div>
 
 
-<div id="orderList">
-Chargement…
-</div>
+    <div class="stat">
 
-</div>
+      <div class="stat-top">
+
+        <div>
+
+          <div class="stat-label">
+            TRAITÉES
+          </div>
+
+          <div
+            id="processedOrders"
+            class="stat-number"
+          >
+            0
+          </div>
+
+        </div>
+
+        <div class="stat-icon">
+          ✅
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-top">
+
+        <div>
+
+          <div class="stat-label">
+            USTHB
+          </div>
+
+          <div
+            id="usthbOrders"
+            class="stat-number"
+          >
+            0
+          </div>
+
+        </div>
+
+        <div class="stat-icon">
+          🎓
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <input
+      id="orderSearch"
+      placeholder="🔎 Rechercher par nom, téléphone, modèle..."
+    >
+
+  </div>
+
+
+  <div id="orderList">
+
+    Chargement...
+
+  </div>
 
 </section>
 
 
-<!-- ================= AJOUTER COMMANDE ================= -->
+<!-- =====================================================
+     AJOUTER COMMANDE
+===================================================== -->
 
 <section
-id="addOrderPage"
-class="page"
+  id="addOrderPage"
+  class="page"
 >
 
-<div class="box">
+  <div class="page-title">
 
-<h2>
-➕ Ajouter une commande
-</h2>
+    <div>
 
-<p>
-Créer une commande manuellement pour une cliente.
-</p>
+      <h1>➕ Ajouter une commande</h1>
 
+      <p>
+        Crée une commande directement depuis l'Admin.
+      </p>
 
-<div class="form-grid">
+    </div>
 
+  </div>
 
-<div>
 
-<label>
-<b>Nom</b>
-</label>
+  <div class="card">
 
-<input
-id="clientNom"
-placeholder="Nom"
->
 
-</div>
+    <div class="form-grid">
 
 
-<div>
+      <div class="field">
 
-<label>
-<b>Prénom</b>
-</label>
+        <label>
+          Nom
+        </label>
 
-<input
-id="clientPrenom"
-placeholder="Prénom"
->
+        <input
+          id="clientNom"
+          placeholder="Nom"
+        >
 
-</div>
+      </div>
 
 
-<div>
+      <div class="field">
 
-<label>
-<b>Téléphone</b>
-</label>
+        <label>
+          Prénom
+        </label>
 
-<input
-id="clientTelephone"
-type="tel"
-placeholder="05 / 06 / 07..."
->
+        <input
+          id="clientPrenom"
+          placeholder="Prénom"
+        >
 
-</div>
+      </div>
 
 
-<div>
+      <div class="field">
 
-<label>
-<b>Wilaya</b>
-</label>
+        <label>
+          Téléphone
+        </label>
 
-<select id="clientWilaya">
+        <input
+          id="clientTelephone"
+          type="tel"
+          placeholder="0555..."
+        >
 
-<option value="">
-Choisir la wilaya
-</option>
+      </div>
 
-</select>
 
-</div>
+      <div class="field">
 
+        <label>
+          Wilaya
+        </label>
 
-<div class="full">
+        <select id="clientWilaya">
 
-<label>
-<b>Adresse</b>
-</label>
+          <option value="">
+            Choisir
+          </option>
 
-<textarea
-id="clientAdresse"
-placeholder="Adresse de livraison"
-></textarea>
+        </select>
 
-</div>
+      </div>
 
 
-<div class="full">
+      <div class="field full">
 
-<label>
-<b>Type de livraison</b>
-</label>
+        <label>
+          Adresse
+        </label>
 
-<select id="clientLivraison">
+        <textarea
+          id="clientAdresse"
+          placeholder="Adresse"
+        ></textarea>
 
-<option value="">
-Choisir
-</option>
+      </div>
 
-<option value="Domicile">
-🏠 Domicile
-</option>
 
-<option value="Bureau">
-📦 Bureau
-</option>
+      <div class="field full">
 
-<option value="USTHB">
-🎓 USTHB
-</option>
+        <label>
+          Livraison
+        </label>
 
-</select>
+        <select id="clientLivraison">
 
-</div>
+          <option value="">
+            Choisir
+          </option>
 
+          <option value="Domicile">
+            🏠 Domicile
+          </option>
 
-<div class="full">
+          <option value="Bureau">
+            📦 Bureau
+          </option>
 
-<h3>
-📦 Choisir le produit
-</h3>
+          <option value="USTHB">
+            🎓 USTHB
+          </option>
 
-<div id="orderProducts">
-Chargement des produits…
-</div>
+        </select>
 
-</div>
+      </div>
 
 
-<div class="full">
+      <div class="field full">
 
-<label>
-<b>Modèle</b>
-</label>
+        <label>
+          Produit
+        </label>
 
-<select id="clientModele">
+        <div id="manualProducts">
+          Chargement...
+        </div>
 
-<option value="">
-Choisir le modèle
-</option>
+      </div>
 
-</select>
 
-</div>
+      <div class="field full">
 
+        <label>
+          Modèle
+        </label>
 
-</div>
+        <select id="clientModele">
 
+          <option value="">
+            Choisir le modèle
+          </option>
 
-<div class="total-box">
+        </select>
 
-Prix produit :
+      </div>
 
-<b id="manualProductPrice">
-0 DA
-</b>
+    </div>
 
-<br><br>
 
-Frais livraison :
+    <div class="total">
 
-<b id="manualDeliveryPrice">
-0 DA
-</b>
+      Total estimé :
 
-<br><br>
+      <br><br>
 
-Total :
+      <strong id="manualTotal">
+        0 DA
+      </strong>
 
-<div
-id="manualTotal"
-class="total"
->
-0 DA
-</div>
+    </div>
 
-</div>
 
+    <br>
 
-<button
-onclick="saveManualOrder()"
-style="margin-top:15px"
->
-✅ Enregistrer la commande
-</button>
+    <button
+      class="primary"
+      onclick="saveManualOrder()"
+    >
+      ✅ Enregistrer la commande
+    </button>
 
 
-<div
-id="manualMsg"
-class="msg hidden">
-</div>
+    <div
+      id="manualMessage"
+      class="message hidden"
+    ></div>
 
-</div>
+  </div>
 
 </section>
 
 
-</div>
+</main>
 
 </div>
 
@@ -1043,33 +1512,31 @@ const db = supabase.createClient(
 );
 
 
+let products = [];
+let orders = [];
+let editingProductId = null;
+let selectedManualProduct = null;
+let photoData = [];
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
 const $ = id =>
   document.getElementById(id);
 
 
-let products = [];
-let orders = [];
-let editingProductId = null;
-let photoData = [];
-let selectedManualProduct = null;
-
-
-/* =====================================================
-   UTILITAIRES
-===================================================== */
-
 function esc(value){
 
-  return String(value ?? '').replace(
-    /[&<>"']/g,
-    c => ({
+  return String(value ?? '')
+    .replace(/[&<>"']/g, c => ({
       '&':'&amp;',
       '<':'&lt;',
       '>':'&gt;',
       '"':'&quot;',
       "'":'&#39;'
-    }[c])
-  );
+    }[c]));
 
 }
 
@@ -1082,7 +1549,7 @@ function money(value){
 }
 
 
-function imageList(value){
+function images(value){
 
   return String(value || '')
     .split('||')
@@ -1092,7 +1559,7 @@ function imageList(value){
 }
 
 
-function modelList(value){
+function models(value){
 
   return String(value || '')
     .split('||')
@@ -1102,12 +1569,12 @@ function modelList(value){
 }
 
 
-function formatDate(date){
+function dateFormat(value){
 
-  if(!date)
+  if(!value)
     return 'Date inconnue';
 
-  return new Date(date)
+  return new Date(value)
     .toLocaleString(
       'fr-DZ',
       {
@@ -1124,6 +1591,7 @@ function formatDate(date){
 ===================================================== */
 
 const wilayas = [
+
 'Adrar',
 'Chlef',
 'Laghouat',
@@ -1182,15 +1650,19 @@ const wilayas = [
 'Djanet',
 'El M’Ghair',
 'El Meniaa'
+
 ];
 
 
-wilayas.forEach((w,i)=>{
+wilayas.forEach(w => {
 
-  $('clientWilaya').insertAdjacentHTML(
-    'beforeend',
-    `<option value="${esc(w)}">${esc(w)}</option>`
-  );
+  $('clientWilaya')
+    .insertAdjacentHTML(
+      'beforeend',
+      `<option value="${esc(w)}">
+        ${esc(w)}
+      </option>`
+    );
 
 });
 
@@ -1200,7 +1672,7 @@ wilayas.forEach((w,i)=>{
 ===================================================== */
 
 document
-.querySelectorAll('.nav-btn[data-page]')
+.querySelectorAll('[data-page]')
 .forEach(button => {
 
   button.addEventListener(
@@ -1208,7 +1680,7 @@ document
     () => {
 
       document
-      .querySelectorAll('.nav-btn')
+      .querySelectorAll('.nav button')
       .forEach(x =>
         x.classList.remove('active')
       );
@@ -1228,14 +1700,27 @@ document
         .add('active');
 
 
-      if(button.dataset.page === 'ordersPage')
+      if(
+        button.dataset.page ===
+        'ordersPage'
+      ){
+
         loadOrders();
 
+      }
 
-      if(button.dataset.page === 'addOrderPage')
+
+      if(
+        button.dataset.page ===
+        'addOrderPage'
+      ){
+
         renderManualProducts();
 
-    });
+      }
+
+    }
+  );
 
 });
 
@@ -1244,58 +1729,56 @@ document
    LOGIN
 ===================================================== */
 
-$('loginForm').onsubmit =
-async e => {
+$('loginForm').addEventListener(
+  'submit',
+  async e => {
 
-  e.preventDefault();
-
-
-  $('loginMsg').className =
-    'msg';
+    e.preventDefault();
 
 
-  $('loginMsg').textContent =
-    'Connexion…';
+    const result =
+      await db.auth.signInWithPassword({
+
+        email:
+          $('email').value.trim(),
+
+        password:
+          $('password').value
+
+      });
 
 
-  const result =
-    await db.auth.signInWithPassword({
+    if(result.error){
 
-      email:
-        $('email').value.trim(),
-
-      password:
-        $('password').value
-
-    });
+      $('loginMessage')
+        .className =
+        'message error';
 
 
-  if(result.error){
+      $('loginMessage')
+        .textContent =
+        '❌ ' +
+        result.error.message;
 
-    $('loginMsg').className =
-      'msg error';
+      return;
 
-    $('loginMsg').textContent =
-      '❌ ' + result.error.message;
+    }
 
-    return;
+
+    showDashboard();
 
   }
+);
 
 
-  showAdmin();
+async function showDashboard(){
 
-};
-
-
-async function showAdmin(){
-
-  $('loginPage')
+  $('loginScreen')
     .classList
     .add('hidden');
 
 
-  $('adminPage')
+  $('dashboard')
     .classList
     .remove('hidden');
 
@@ -1307,10 +1790,6 @@ async function showAdmin(){
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 async function logout(){
 
   await db.auth.signOut();
@@ -1321,7 +1800,7 @@ async function logout(){
 
 
 /* =====================================================
-   PRODUITS
+   PHONES
 ===================================================== */
 
 const phones = [
@@ -1375,10 +1854,9 @@ const phones = [
 
 
 $('iphonePhones').innerHTML =
-phones.map(
-  phone => `
+phones.map(phone => `
 
-  <label class="phone">
+  <label class="phone-row">
 
     <input
       type="checkbox"
@@ -1390,7 +1868,7 @@ phones.map(
     </span>
 
     <input
-      class="stock"
+      class="stock-input"
       type="number"
       min="0"
       value="0"
@@ -1401,74 +1879,92 @@ phones.map(
 `).join('');
 
 
-$('category').onchange =
-() => {
+$('category').addEventListener(
+  'change',
+  () => {
 
-  const isCase =
-    $('category').value === 'cases';
-
-
-  $('caseFields')
-    .classList
-    .toggle('hidden',!isCase);
+    const isCase =
+      $('category').value === 'cases';
 
 
-  $('simpleFields')
-    .classList
-    .toggle('hidden',isCase);
+    $('caseFields')
+      .classList
+      .toggle(
+        'hidden',
+        !isCase
+      );
 
-};
+
+    $('simpleFields')
+      .classList
+      .toggle(
+        'hidden',
+        isCase
+      );
+
+  }
+);
 
 
 document
-.querySelectorAll('input[name=phoneType]')
+.querySelectorAll(
+  'input[name=phoneType]'
+)
 .forEach(radio => {
 
-  radio.onchange =
-  () => {
+  radio.addEventListener(
+    'change',
+    () => {
 
-    const other =
-      document.querySelector(
-        'input[name=phoneType]:checked'
-      ).value === 'other';
-
-
-    $('iphonePhones')
-      .style
-      .display =
-      other ? 'none' : 'grid';
+      const other =
+        document.querySelector(
+          'input[name=phoneType]:checked'
+        ).value === 'other';
 
 
-    $('customModel')
-      .classList
-      .toggle('show',other);
+      $('iphonePhones')
+        .classList
+        .toggle(
+          'hidden',
+          other
+        );
 
 
-    $('customStock')
-      .classList
-      .toggle('show',other);
+      $('customModel')
+        .classList
+        .toggle(
+          'hidden',
+          !other
+        );
 
-  };
+
+      $('customStock')
+        .classList
+        .toggle(
+          'hidden',
+          !other
+        );
+
+    }
+  );
 
 });
 
 
-function selectedStock(){
+function getStock(){
 
   const result = {};
 
 
   if(
-    $('category').value !== 'cases'
+    $('category').value !==
+    'cases'
   ){
 
     result.stock_total =
-      Math.max(
-        0,
-        Number(
-          $('simpleStockValue').value
-        ) || 0
-      );
+      Number(
+        $('simpleStock').value
+      ) || 0;
 
     return result;
 
@@ -1492,12 +1988,9 @@ function selectedStock(){
     if(model){
 
       result[model] =
-        Math.max(
-          0,
-          Number(
-            $('customStock').value
-          ) || 0
-        );
+        Number(
+          $('customStock').value
+        ) || 0;
 
     }
 
@@ -1507,19 +2000,19 @@ function selectedStock(){
 
     document
     .querySelectorAll(
-      '#iphonePhones .phone'
+      '.phone-row'
     )
-    .forEach(label => {
+    .forEach(row => {
 
       const checkbox =
-        label.querySelector(
+        row.querySelector(
           'input[type=checkbox]'
         );
 
 
       const stock =
-        label.querySelector(
-          '.stock'
+        row.querySelector(
+          '.stock-input'
         );
 
 
@@ -1528,10 +2021,9 @@ function selectedStock(){
         result[
           checkbox.value
         ] =
-        Math.max(
-          0,
-          Number(stock.value) || 0
-        );
+        Number(
+          stock.value
+        ) || 0;
 
       }
 
@@ -1552,107 +2044,100 @@ function selectedStock(){
 function compressImage(file){
 
   return new Promise(
-    (resolve,reject)=>{
+    (resolve,reject) => {
 
       const reader =
         new FileReader();
 
 
-      reader.onerror =
-        reject;
-
-
       reader.onload =
+      () => {
+
+        const img =
+          new Image();
+
+
+        img.onload =
         () => {
 
-          const image =
-            new Image();
+          const max = 1400;
+
+          let w =
+            img.width;
+
+          let h =
+            img.height;
 
 
-          image.onload =
-          () => {
+          if(
+            Math.max(w,h) > max
+          ){
 
-            const max = 1400;
+            if(w > h){
 
-            let width =
-              image.width;
+              h =
+                Math.round(
+                  h * max / w
+                );
 
-            let height =
-              image.height;
-
-
-            if(
-              Math.max(
-                width,
-                height
-              ) > max
-            ){
-
-              if(width >= height){
-
-                height =
-                  Math.round(
-                    height * max / width
-                  );
-
-                width = max;
-
-              }
-
-              else{
-
-                width =
-                  Math.round(
-                    width * max / height
-                  );
-
-                height = max;
-
-              }
+              w = max;
 
             }
 
+            else{
 
-            const canvas =
-              document.createElement(
-                'canvas'
-              );
+              w =
+                Math.round(
+                  w * max / h
+                );
+
+              h = max;
+
+            }
+
+          }
 
 
-            canvas.width = width;
-            canvas.height = height;
-
-
-            canvas
-            .getContext('2d')
-            .drawImage(
-              image,
-              0,
-              0,
-              width,
-              height
+          const canvas =
+            document.createElement(
+              'canvas'
             );
 
 
-            resolve(
-              canvas.toDataURL(
-                'image/jpeg',
-                .78
-              )
-            );
-
-          };
+          canvas.width = w;
+          canvas.height = h;
 
 
-          image.onerror =
-            reject;
+          canvas
+          .getContext('2d')
+          .drawImage(
+            img,
+            0,
+            0,
+            w,
+            h
+          );
 
 
-          image.src =
-            reader.result;
+          resolve(
+            canvas.toDataURL(
+              'image/jpeg',
+              .78
+            )
+          );
 
         };
 
+
+        img.onerror = reject;
+
+        img.src =
+          reader.result;
+
+      };
+
+
+      reader.onerror = reject;
 
       reader.readAsDataURL(file);
 
@@ -1662,61 +2147,53 @@ function compressImage(file){
 }
 
 
-$('photo').onchange =
-async e => {
+$('photo').addEventListener(
+  'change',
+  async e => {
 
-  photoData = [];
+    photoData = [];
 
-  $('previews').innerHTML =
-    '';
-
-
-  const files =
-    [
-      ...e.target.files
-    ].slice(0,10);
+    $('previews').innerHTML = '';
 
 
-  $('photoCount')
-    .textContent =
-    files.length
-      ? `(${files.length} photo(s))`
-      : '';
+    const files =
+      [...e.target.files]
+      .slice(0,10);
 
 
-  for(
-    const file of files
-  ){
+    for(
+      const file of files
+    ){
 
-    try{
+      try{
 
-      const data =
-        await compressImage(file);
-
-
-      photoData.push(data);
+        const data =
+          await compressImage(file);
 
 
-      $('previews')
-      .insertAdjacentHTML(
-        'beforeend',
-        `<img
-          class="preview"
-          src="${data}"
-        >`
-      );
+        photoData.push(data);
 
-    }
 
-    catch(error){
+        $('previews')
+          .insertAdjacentHTML(
+            'beforeend',
+            `<img
+              class="photo-preview"
+              src="${data}"
+            >`
+          );
 
-      console.error(error);
+      }
+      catch(error){
+
+        console.error(error);
+
+      }
 
     }
 
   }
-
-};
+);
 
 
 /* =====================================================
@@ -1725,38 +2202,34 @@ async e => {
 
 async function saveProduct(){
 
-  const nom =
+  const name =
     $('name')
     .value
     .trim();
 
 
-  const prix =
+  const price =
     Number(
       $('price').value
     );
 
 
-  const categorie =
+  const category =
     $('category')
-    .value
-    .trim()
-    .toLowerCase();
+    .value;
 
 
   const stock =
-    selectedStock();
+    getStock();
 
 
-  const models =
+  const modelKeys =
     Object.keys(stock);
 
 
   const urls =
     photoData.length
-
       ? photoData
-
       : $('img')
         .value
         .split(',')
@@ -1764,10 +2237,10 @@ async function saveProduct(){
         .filter(Boolean);
 
 
-  if(!nom){
+  if(!name){
 
     showProductMessage(
-      '❌ Écris le nom du produit.',
+      '❌ Ajoute le nom du produit.',
       true
     );
 
@@ -1776,7 +2249,7 @@ async function saveProduct(){
   }
 
 
-  if(!prix){
+  if(!price){
 
     showProductMessage(
       '❌ Ajoute le prix.',
@@ -1791,7 +2264,7 @@ async function saveProduct(){
   if(!urls.length){
 
     showProductMessage(
-      '❌ Ajoute au moins une photo ou une URL.',
+      '❌ Ajoute une photo.',
       true
     );
 
@@ -1801,8 +2274,8 @@ async function saveProduct(){
 
 
   if(
-    categorie === 'cases' &&
-    !models.length
+    category === 'cases' &&
+    !modelKeys.length
   ){
 
     showProductMessage(
@@ -1817,31 +2290,27 @@ async function saveProduct(){
 
   const payload = {
 
-    nom:nom,
+    nom:name,
 
     modele:
-      categorie === 'cases'
-        ? models.join('||')
-        : nom,
+      category === 'cases'
+        ? modelKeys.join('||')
+        : name,
 
-    prix:prix,
+    prix:price,
 
     image_url:
       urls.join('||'),
 
     stock:stock,
 
-    categorie:categorie,
+    categorie:category,
 
     disponible:
-      categorie === 'cases'
-        ? Object.values(stock)
-          .some(
-            x => Number(x) > 0
-          )
-        : Number(
-            stock.stock_total || 0
-          ) > 0
+      Object.values(stock)
+      .some(
+        x => Number(x) > 0
+      )
 
   };
 
@@ -1874,11 +2343,6 @@ async function saveProduct(){
 
   if(result.error){
 
-    console.error(
-      result.error
-    );
-
-
     showProductMessage(
       '❌ ' +
       result.error.message,
@@ -1891,7 +2355,7 @@ async function saveProduct(){
 
 
   showProductMessage(
-    '✅ Produit enregistré avec succès !',
+    '✅ Produit enregistré.',
     false
   );
 
@@ -1905,20 +2369,20 @@ async function saveProduct(){
 
 function showProductMessage(
   text,
-  isError
+  error
 ){
 
-  $('productMsg')
+  $('productMessage')
     .className =
-    'msg ' +
+    'message ' +
     (
-      isError
+      error
         ? 'error'
         : 'success'
     );
 
 
-  $('productMsg')
+  $('productMessage')
     .textContent =
     text;
 
@@ -1947,7 +2411,7 @@ async function loadProducts(){
 
     $('productList')
       .innerHTML =
-      `<div class="msg error">
+      `<div class="message error">
         ${esc(result.error.message)}
       </div>`;
 
@@ -1972,7 +2436,7 @@ function renderProducts(){
     $('productList')
       .innerHTML =
       `<div class="empty">
-        Aucun produit.
+        📦 Aucun produit.
       </div>`;
 
     return;
@@ -1981,11 +2445,10 @@ function renderProducts(){
 
 
   $('productList').innerHTML =
-    products
-    .map(product => {
+    products.map(product => {
 
       const image =
-        imageList(
+        images(
           product.image_url
         )[0] || '';
 
@@ -2008,8 +2471,11 @@ function renderProducts(){
       <div class="product">
 
         <img
+          class="product-image"
           src="${esc(image)}"
+          alt=""
         >
+
 
         <div class="product-info">
 
@@ -2018,6 +2484,14 @@ function renderProducts(){
             ${esc(product.nom)}
 
           </div>
+
+
+          <div class="product-price">
+
+            ${money(product.prix)}
+
+          </div>
+
 
           <span class="badge">
 
@@ -2030,34 +2504,33 @@ function renderProducts(){
 
           </span>
 
-          <br>
-
-          <b>
-            ${money(product.prix)}
-          </b>
 
           <br>
 
           <small>
+
             ${stockText || 'Stock non renseigné'}
+
           </small>
 
         </div>
 
 
-        <div class="actions">
+        <div class="product-actions">
 
           <button
+            class="primary"
             onclick="editProduct('${esc(product.id)}')"
           >
             Modifier
           </button>
 
+
           <button
+            class="danger"
             onclick="deleteProduct('${esc(product.id)}')"
-            class="secondary"
           >
-            Supprimer
+            🗑️
           </button>
 
         </div>
@@ -2066,8 +2539,7 @@ function renderProducts(){
 
       `;
 
-    })
-    .join('');
+    }).join('');
 
 }
 
@@ -2080,7 +2552,9 @@ function editProduct(id){
 
   const product =
     products.find(
-      p => String(p.id) === String(id)
+      p =>
+      String(p.id) ===
+      String(id)
     );
 
 
@@ -2110,7 +2584,7 @@ function editProduct(id){
 
 
   $('img').value =
-    imageList(
+    images(
       product.image_url
     ).join(',');
 
@@ -2127,19 +2601,19 @@ function editProduct(id){
 
   document
   .querySelectorAll(
-    '#iphonePhones .phone'
+    '.phone-row'
   )
-  .forEach(label => {
+  .forEach(row => {
 
     const checkbox =
-      label.querySelector(
+      row.querySelector(
         'input[type=checkbox]'
       );
 
 
     const stockInput =
-      label.querySelector(
-        '.stock'
+      row.querySelector(
+        '.stock-input'
       );
 
 
@@ -2161,8 +2635,7 @@ function editProduct(id){
     stock.stock_total !== undefined
   ){
 
-    $('simpleStockValue')
-      .value =
+    $('simpleStock').value =
       stock.stock_total;
 
   }
@@ -2189,7 +2662,7 @@ async function deleteProduct(id){
 
   if(
     !confirm(
-      'Supprimer définitivement ce produit ?'
+      '⚠️ Supprimer ce produit ?'
     )
   )
     return;
@@ -2205,7 +2678,7 @@ async function deleteProduct(id){
   if(result.error){
 
     alert(
-      'Erreur : ' +
+      '❌ ' +
       result.error.message
     );
 
@@ -2240,14 +2713,12 @@ function resetProductForm(){
 
   $('previews').innerHTML = '';
 
-  $('photoCount').textContent = '';
-
-  $('simpleStockValue').value = '';
+  $('simpleStock').value = '';
 
 
   document
   .querySelectorAll(
-    '#iphonePhones input[type=checkbox]'
+    '.phone-row input[type=checkbox]'
   )
   .forEach(
     x => x.checked = false
@@ -2256,47 +2727,11 @@ function resetProductForm(){
 
   document
   .querySelectorAll(
-    '#iphonePhones .stock'
+    '.stock-input'
   )
   .forEach(
     x => x.value = 0
   );
-
-
-  $('category').value =
-    'cases';
-
-
-  document
-  .querySelector(
-    'input[name=phoneType][value=iphone]'
-  )
-  .checked = true;
-
-
-  $('iphonePhones')
-    .style
-    .display = 'grid';
-
-
-  $('customModel')
-    .classList
-    .remove('show');
-
-
-  $('customStock')
-    .classList
-    .remove('show');
-
-
-  $('caseFields')
-    .classList
-    .remove('hidden');
-
-
-  $('simpleFields')
-    .classList
-    .add('hidden');
 
 
   $('productFormTitle')
@@ -2317,24 +2752,10 @@ function resetProductForm(){
 
 async function loadOrders(){
 
-  $('orderList').innerHTML =
-    '<div class="empty">🔄 Chargement...</div>';
-
-
   const result =
     await db
     .from('commandes')
-    .select(`
-      id,
-      coque_id,
-      modele,
-      nom,
-      prenom,
-      telephone,
-      adresse,
-      livraison,
-      created_at
-    `)
+    .select('*')
     .order(
       'created_at',
       {
@@ -2347,8 +2768,10 @@ async function loadOrders(){
 
     $('orderList')
       .innerHTML =
-      `<div class="msg error">
+      `<div class="message error">
+
         ❌ ${esc(result.error.message)}
+
       </div>`;
 
     return;
@@ -2369,36 +2792,68 @@ async function loadOrders(){
 
 function updateOrderStats(){
 
-  $('orderCount')
+  const pending =
+    orders.filter(
+      o =>
+      o.statut !== 'Traitée'
+    );
+
+
+  const processed =
+    orders.filter(
+      o =>
+      o.statut === 'Traitée'
+    );
+
+
+  const usthb =
+    orders.filter(
+      o =>
+      o.livraison === 'USTHB'
+    );
+
+
+  $('totalOrders')
     .textContent =
     orders.length;
 
 
-  $('homeCount')
+  $('pendingOrders')
     .textContent =
-    orders.filter(
-      o =>
-      o.livraison === 'Domicile'
-    ).length;
+    pending.length;
 
 
-  $('usthbCount')
+  $('processedOrders')
     .textContent =
-    orders.filter(
-      o =>
-      o.livraison === 'USTHB'
-    ).length;
+    processed.length;
+
+
+  $('usthbOrders')
+    .textContent =
+    usthb.length;
+
+
+  $('navOrderCount')
+    .textContent =
+    pending.length
+      ? `(${pending.length})`
+      : '';
 
 }
+
+
+$('orderSearch')
+.addEventListener(
+  'input',
+  renderOrders
+);
 
 
 function renderOrders(){
 
   const query =
-    (
-      $('orderSearch')
-        ?.value || ''
-    )
+    $('orderSearch')
+    .value
     .toLowerCase()
     .trim();
 
@@ -2408,12 +2863,23 @@ function renderOrders(){
 
       const text =
         [
+
+          order.id,
+
           order.nom,
+
           order.prenom,
+
           order.telephone,
+
           order.modele,
+
           order.adresse,
-          order.livraison
+
+          order.livraison,
+
+          order.statut
+
         ]
         .join(' ')
         .toLowerCase();
@@ -2428,12 +2894,12 @@ function renderOrders(){
 
     $('orderList')
       .innerHTML =
-      `<div class="empty">
+      `<div class="card empty">
 
         🛍️
 
         <h3>
-          Aucune commande trouvée
+          Aucune commande
         </h3>
 
       </div>`;
@@ -2445,27 +2911,58 @@ function renderOrders(){
 
   $('orderList').innerHTML =
     filtered
-    .map(order => `
+    .map(order => {
 
-      <div class="order">
+      const processed =
+        order.statut === 'Traitée';
+
+
+      return `
+
+      <article
+        class="order ${processed ? 'processed' : ''}"
+      >
+
 
         <div class="order-header">
 
+
           <div>
 
-            <h2>
-              🛍️ Commande #${esc(order.id)}
-            </h2>
+            <div class="order-number">
 
-            <span>
-              ${formatDate(order.created_at)}
-            </span>
+              🛍️ Commande #${esc(order.id)}
+
+            </div>
+
+
+            <div class="order-date">
+
+              ${dateFormat(
+                order.created_at
+              )}
+
+            </div>
 
           </div>
 
-          <span class="order-id">
-            #${esc(order.id)}
+
+          <span
+            class="status ${
+              processed
+                ? 'done'
+                : 'pending'
+            }"
+          >
+
+            ${
+              processed
+                ? '🟢 Traitée'
+                : '🟠 En attente'
+            }
+
           </span>
+
 
         </div>
 
@@ -2473,111 +2970,297 @@ function renderOrders(){
         <div class="order-grid">
 
 
-          <div class="info">
+          <div class="order-info">
 
-            <div class="info-label">
+            <div class="order-label">
               CLIENT
             </div>
 
             <b>
-              ${esc(order.nom || '')}
-              ${esc(order.prenom || '')}
+
+              ${esc(
+                order.nom || ''
+              )}
+
+              ${esc(
+                order.prenom || ''
+              )}
+
             </b>
 
           </div>
 
 
-          <div class="info">
+          <div class="order-info">
 
-            <div class="info-label">
+            <div class="order-label">
               TÉLÉPHONE
             </div>
 
             <a
-              href="tel:${esc(order.telephone || '')}"
+              href="tel:${esc(
+                order.telephone || ''
+              )}"
             >
 
-              📞 ${esc(order.telephone || '—')}
+              📞 ${esc(
+                order.telephone || '—'
+              )}
 
             </a>
 
           </div>
 
 
-          <div class="info">
+          <div class="order-info">
 
-            <div class="info-label">
+            <div class="order-label">
               MODÈLE
             </div>
 
-            📱 ${esc(order.modele || '—')}
+            📱 ${esc(
+              order.modele || '—'
+            )}
 
           </div>
 
 
-          <div class="info">
+          <div class="order-info">
 
-            <div class="info-label">
-              COQUE ID
+            <div class="order-label">
+              ADRESSE
             </div>
 
-            ${esc(order.coque_id || '—')}
+            📍 ${esc(
+              order.adresse || '—'
+            )}
 
           </div>
 
 
-          <div class="info">
+          <div class="order-info">
 
-            <div class="info-label">
-              ADRESSE / WILAYA
-            </div>
-
-            📍 ${esc(order.adresse || '—')}
-
-          </div>
-
-
-          <div class="info">
-
-            <div class="info-label">
+            <div class="order-label">
               LIVRAISON
             </div>
 
             <span class="delivery">
 
-              ${esc(order.livraison || '—')}
+              ${esc(
+                order.livraison || '—'
+              )}
 
             </span>
 
           </div>
 
 
+          <div class="order-info">
+
+            <div class="order-label">
+              PRODUIT ID
+            </div>
+
+            ${esc(
+              order.coque_id || '—'
+            )}
+
+          </div>
+
+
         </div>
 
-      </div>
 
-    `)
+        <div class="order-actions">
+
+
+          ${
+            !processed
+
+              ? `
+
+              <button
+                class="success-btn"
+                onclick="processOrder('${esc(order.id)}')"
+              >
+
+                ✅ Traiter la commande
+
+              </button>
+
+              `
+
+              : `
+
+              <button
+                class="secondary"
+                onclick="unprocessOrder('${esc(order.id)}')"
+              >
+
+                ↩ Remettre en attente
+
+              </button>
+
+              `
+          }
+
+
+          <button
+            class="danger"
+            onclick="deleteOrder('${esc(order.id)}')"
+          >
+
+            🗑️ Supprimer
+
+          </button>
+
+
+        </div>
+
+
+      </article>
+
+      `;
+
+    })
     .join('');
 
 }
 
 
-$('orderSearch')
-?.addEventListener(
-  'input',
-  renderOrders
-);
+/* =====================================================
+   TRAITER COMMANDE
+===================================================== */
+
+async function processOrder(id){
+
+  if(
+    !confirm(
+      'Marquer cette commande comme traitée ?'
+    )
+  )
+    return;
+
+
+  const result =
+    await db
+    .from('commandes')
+    .update({
+      statut:'Traitée'
+    })
+    .eq(
+      'id',
+      id
+    );
+
+
+  if(result.error){
+
+    alert(
+      '❌ Impossible de traiter la commande :\n' +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadOrders();
+
+}
 
 
 /* =====================================================
-   AJOUT MANUEL DE COMMANDE
+   REMETTRE EN ATTENTE
+===================================================== */
+
+async function unprocessOrder(id){
+
+  const result =
+    await db
+    .from('commandes')
+    .update({
+      statut:'En attente'
+    })
+    .eq(
+      'id',
+      id
+    );
+
+
+  if(result.error){
+
+    alert(
+      '❌ ' +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadOrders();
+
+}
+
+
+/* =====================================================
+   SUPPRIMER COMMANDE
+===================================================== */
+
+async function deleteOrder(id){
+
+  const confirmed =
+    confirm(
+      '⚠️ ATTENTION\n\n' +
+      'Voulez-vous vraiment supprimer cette commande ?\n\n' +
+      'Cette action est définitive.'
+    );
+
+
+  if(!confirmed)
+    return;
+
+
+  const result =
+    await db
+    .from('commandes')
+    .delete()
+    .eq(
+      'id',
+      id
+    );
+
+
+  if(result.error){
+
+    alert(
+      '❌ Impossible de supprimer la commande :\n' +
+      result.error.message
+    );
+
+    return;
+
+  }
+
+
+  await loadOrders();
+
+}
+
+
+/* =====================================================
+   PRODUITS POUR COMMANDE MANUELLE
 ===================================================== */
 
 function renderManualProducts(){
 
   if(!products.length){
 
-    $('orderProducts').innerHTML =
+    $('manualProducts')
+      .innerHTML =
       '<p>Aucun produit disponible.</p>';
 
     return;
@@ -2585,7 +3268,7 @@ function renderManualProducts(){
   }
 
 
-  $('orderProducts').innerHTML =
+  $('manualProducts').innerHTML =
     products
     .filter(
       p =>
@@ -2594,7 +3277,7 @@ function renderManualProducts(){
     .map(product => {
 
       const image =
-        imageList(
+        images(
           product.image_url
         )[0] || '';
 
@@ -2602,7 +3285,8 @@ function renderManualProducts(){
       return `
 
       <label
-        class="product-select"
+        class="product-choice"
+        data-product-id="${esc(product.id)}"
         onclick="selectManualProduct('${esc(product.id)}')"
       >
 
@@ -2614,6 +3298,7 @@ function renderManualProducts(){
 
         <img
           src="${esc(image)}"
+          alt=""
         >
 
         <div>
@@ -2624,7 +3309,13 @@ function renderManualProducts(){
 
           <br>
 
-          ${money(product.prix)}
+          <span
+            style="color:#d94f8b;font-weight:bold"
+          >
+
+            ${money(product.prix)}
+
+          </span>
 
         </div>
 
@@ -2642,7 +3333,9 @@ function selectManualProduct(id){
 
   selectedManualProduct =
     products.find(
-      p => String(p.id) === String(id)
+      p =>
+      String(p.id) ===
+      String(id)
     );
 
 
@@ -2652,17 +3345,22 @@ function selectManualProduct(id){
 
   document
   .querySelectorAll(
-    '.product-select'
+    '.product-choice'
   )
-  .forEach(x =>
+  .forEach(
+    x =>
     x.classList.remove('selected')
   );
 
 
-  event
-    ?.currentTarget
-    ?.classList
-    .add('selected');
+  const selected =
+    document.querySelector(
+      `[data-product-id="${CSS.escape(String(id))}"]`
+    );
+
+
+  if(selected)
+    selected.classList.add('selected');
 
 
   updateManualModels();
@@ -2674,11 +3372,7 @@ function selectManualProduct(id){
 
 function updateManualModels(){
 
-  const select =
-    $('clientModele');
-
-
-  select.innerHTML =
+  $('clientModele').innerHTML =
     '<option value="">Choisir le modèle</option>';
 
 
@@ -2686,60 +3380,56 @@ function updateManualModels(){
     return;
 
 
-  const models =
-    modelList(
+  const list =
+    models(
       selectedManualProduct.modele
     );
 
 
-  models.forEach(model => {
+  list.forEach(model => {
 
-    select.insertAdjacentHTML(
-      'beforeend',
-      `<option value="${esc(model)}">
-        ${esc(model)}
-      </option>`
-    );
+    $('clientModele')
+      .insertAdjacentHTML(
+        'beforeend',
+        `<option value="${esc(model)}">
+          ${esc(model)}
+        </option>`
+      );
 
   });
 
 
-  if(!models.length){
+  if(!list.length){
 
-    select.insertAdjacentHTML(
-      'beforeend',
-      `<option value="${esc(selectedManualProduct.nom)}">
-        ${esc(selectedManualProduct.nom)}
-      </option>`
-    );
+    $('clientModele')
+      .insertAdjacentHTML(
+        'beforeend',
+        `<option value="${esc(
+          selectedManualProduct.nom
+        )}">
+          ${esc(
+            selectedManualProduct.nom
+          )}
+        </option>`
+      );
 
   }
 
 }
 
 
+/* =====================================================
+   TOTAL COMMANDE
+===================================================== */
+
 function deliveryPrice(){
 
   const delivery =
-    $('clientLivraison').value;
-
-
-  const wilaya =
-    $('clientWilaya').value;
-
-
-  /*
-    Tarifs simples pour la commande
-    manuelle.
-    USTHB = gratuit.
-  */
+    $('clientLivraison')
+    .value;
 
 
   if(delivery === 'USTHB')
-    return 0;
-
-
-  if(!wilaya)
     return 0;
 
 
@@ -2756,6 +3446,13 @@ function deliveryPrice(){
 }
 
 
+$('clientLivraison')
+.addEventListener(
+  'change',
+  updateManualTotal
+);
+
+
 function updateManualTotal(){
 
   const productPrice =
@@ -2768,34 +3465,19 @@ function updateManualTotal(){
     deliveryPrice();
 
 
-  $('manualProductPrice')
-    .textContent =
-    money(productPrice);
-
-
-  $('manualDeliveryPrice')
-    .textContent =
-    money(delivery);
-
-
   $('manualTotal')
     .textContent =
     money(
-      productPrice + delivery
+      productPrice +
+      delivery
     );
 
 }
 
 
-$('clientLivraison')
-  .onchange =
-  updateManualTotal;
-
-
-$('clientWilaya')
-  .onchange =
-  updateManualTotal;
-
+/* =====================================================
+   SAVE MANUAL ORDER
+===================================================== */
 
 async function saveManualOrder(){
 
@@ -2839,15 +3521,15 @@ async function saveManualOrder(){
     .value;
 
 
-  const modele =
-    $('clientModele')
-    .value;
-
-
   const adresse =
     $('clientAdresse')
     .value
     .trim();
+
+
+  const modele =
+    $('clientModele')
+    .value;
 
 
   if(
@@ -2875,7 +3557,7 @@ async function saveManualOrder(){
   ){
 
     showManualMessage(
-      '❌ Ajoute l’adresse pour la livraison à domicile.',
+      '❌ Ajoute l’adresse.',
       true
     );
 
@@ -2886,16 +3568,8 @@ async function saveManualOrder(){
 
   const finalAddress =
     livraison === 'Domicile'
-      ? adresse + ' — ' + wilaya
+      ? `${adresse} — ${wilaya}`
       : wilaya;
-
-
-  /*
-    IMPORTANT :
-
-    On utilise les mêmes colonnes
-    que les commandes du site public.
-  */
 
 
   const payload = {
@@ -2921,6 +3595,9 @@ async function saveManualOrder(){
     livraison:
       livraison,
 
+    statut:
+      'En attente',
+
     created_at:
       new Date().toISOString()
 
@@ -2934,11 +3611,6 @@ async function saveManualOrder(){
 
 
   if(result.error){
-
-    console.error(
-      result.error
-    );
-
 
     showManualMessage(
       '❌ ' +
@@ -2955,11 +3627,6 @@ async function saveManualOrder(){
     '✅ Commande ajoutée avec succès !',
     false
   );
-
-
-  /*
-    Réinitialisation
-  */
 
 
   $('clientNom').value = '';
@@ -2983,23 +3650,12 @@ async function saveManualOrder(){
 
   document
   .querySelectorAll(
-    '.product-select'
+    '.product-choice'
   )
-  .forEach(x =>
+  .forEach(
+    x =>
     x.classList.remove('selected')
   );
-
-
-  document
-  .querySelectorAll(
-    'input[name=manualProduct]'
-  )
-  .forEach(x =>
-    x.checked = false
-  );
-
-
-  updateManualTotal();
 
 
   await loadOrders();
@@ -3009,20 +3665,20 @@ async function saveManualOrder(){
 
 function showManualMessage(
   text,
-  isError
+  error
 ){
 
-  $('manualMsg')
+  $('manualMessage')
     .className =
-    'msg ' +
+    'message ' +
     (
-      isError
+      error
         ? 'error'
         : 'success'
     );
 
 
-  $('manualMsg')
+  $('manualMessage')
     .textContent =
     text;
 
@@ -3030,7 +3686,7 @@ function showManualMessage(
 
 
 /* =====================================================
-   SESSION AU CHARGEMENT
+   AUTO LOGIN
 ===================================================== */
 
 (async function(){
@@ -3040,11 +3696,10 @@ function showManualMessage(
 
 
   if(
-    result.data &&
-    result.data.session
+    result.data?.session
   ){
 
-    showAdmin();
+    showDashboard();
 
   }
 
@@ -3052,7 +3707,7 @@ function showManualMessage(
 
 
 /* =====================================================
-   ACTUALISATION DES COMMANDES
+   REALTIME / REFRESH
 ===================================================== */
 
 setInterval(
@@ -3063,8 +3718,7 @@ setInterval(
 
 
     if(
-      session.data &&
-      session.data.session
+      session.data?.session
     ){
 
       await loadOrders();
