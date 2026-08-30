@@ -1,258 +1,311 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USTHB Cases</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>USTHB Cases</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
-  margin:0;
   font-family:Arial,sans-serif;
-  background:#fff7fa;
-  color:#49313d
+  margin:0;
+  background:#fff7fb;
+  color:#4b3040;
 }
+
 header{
   background:#fff;
-  border-bottom:1px solid #f1d7e3;
+  padding:18px;
   position:sticky;
   top:0;
-  z-index:20
+  z-index:10;
+  box-shadow:0 2px 12px #ead2dc;
 }
-.header{
-  max-width:1200px;
-  margin:auto;
-  padding:15px 20px;
+
+.brand{
+  text-align:center;
+  font-size:28px;
+  color:#d94f8b;
+  font-weight:bold;
+  margin-bottom:14px;
+}
+
+.cats{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  overflow:auto;
+}
+
+.cat{
+  border:0;
+  background:#fff0f6;
+  color:#6d4a5b;
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:bold;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.cat.active{
+  background:#d94f8b;
+  color:#fff;
+}
+
+.admin-logo{
+  position:absolute;
+  right:14px;
+  top:12px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#fff,#ffe1ed);
+  color:#d94f8b;
+  text-decoration:none;
   display:flex;
   align-items:center;
-  gap:20px
+  justify-content:center;
+  font-size:25px;
+  border:2px solid #f4b7cf;
+  box-shadow:0 3px 10px #edbfd2;
 }
-.logo{
-  font-size:22px;
-  font-weight:900;
-  color:#d94f8b;
-  white-space:nowrap
-}
+
 .search{
-  flex:1;
-  padding:13px 18px;
-  border:1px solid #edc6d7;
-  border-radius:30px;
-  outline:none;
-  font-size:15px
-}
-.cart-btn{
-  background:#d94f8b;
-  color:white;
-  border:0;
+  display:block;
+  width:calc(100% - 40px);
+  max-width:900px;
+  margin:18px auto;
+  padding:13px;
+  border:1px solid #efb5cc;
   border-radius:14px;
-  padding:12px 17px;
-  font-weight:bold;
-  cursor:pointer
+  outline:none;
 }
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:25px 20px
-}
-.hero{
-  background:linear-gradient(135deg,#ffe2ed,#fff);
-  border-radius:25px;
-  padding:30px;
-  margin-bottom:25px
-}
-.hero h1{
-  margin:0;
-  color:#d94f8b
-}
-.hero p{color:#866875}
-.filters{
-  display:flex;
-  gap:10px;
-  overflow:auto;
-  margin-bottom:20px
-}
-.filter{
-  border:1px solid #eac5d5;
-  background:white;
-  border-radius:20px;
-  padding:9px 15px;
-  cursor:pointer;
-  white-space:nowrap
-}
-.filter.active{
-  background:#d94f8b;
-  color:white
-}
+
 .grid{
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:18px;
 }
+
 .card{
   background:white;
-  border:1px solid #f0dce5;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 5px 18px #9b526d12
+  padding:10px;
+  border-radius:18px;
+  box-shadow:0 3px 15px #edd7e0;
+  cursor:pointer;
 }
+
 .card img{
   width:100%;
-  height:230px;
+  aspect-ratio:1;
   object-fit:cover;
-  background:#fff0f6
+  border-radius:14px;
 }
-.card-body{padding:15px}
+
 .card h3{
-  margin:0 0 8px;
-  font-size:16px
+  margin:10px 3px;
 }
+
 .price{
+  margin:0 3px 5px;
   color:#d94f8b;
-  font-weight:900;
-  font-size:18px
+  font-weight:bold;
 }
-.model{
-  color:#8b6b79;
-  font-size:12px;
-  margin:8px 0
-}
-.add{
-  width:100%;
-  background:#d94f8b;
-  color:white;
-  border:0;
-  padding:11px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold
-}
+
 .empty{
   text-align:center;
+  grid-column:1/-1;
   padding:50px;
-  color:#967684
 }
 
-/* PANIER */
-.overlay{
-  display:none;
+.modal{
   position:fixed;
   inset:0;
-  background:#0005;
-  z-index:50
-}
-.overlay.show{display:block}
-.cart{
-  position:absolute;
-  right:0;
-  top:0;
-  height:100%;
-  width:min(500px,100%);
-  background:white;
-  overflow:auto;
-  padding:22px
-}
-.cart-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center
-}
-.close{
-  border:0;
-  background:#ffe6ef;
-  color:#c13d73;
-  border-radius:10px;
-  padding:8px 12px;
-  cursor:pointer
-}
-.cart-item{
-  border:1px solid #efd8e2;
-  border-radius:15px;
-  padding:12px;
-  margin:12px 0
-}
-.cart-item-top{
-  display:flex;
-  gap:10px
-}
-.cart-item img{
-  width:65px;
-  height:65px;
-  border-radius:10px;
-  object-fit:cover
-}
-.qty{
-  display:flex;
+  background:#0008;
+  display:none;
   align-items:center;
-  gap:10px;
-  margin-top:10px
+  justify-content:center;
+  padding:15px;
+  z-index:30;
 }
-.qty button{
-  width:30px;
-  height:30px;
-  border:0;
-  border-radius:8px;
-  background:#ffe3ed;
-  color:#c23d73;
-  font-weight:bold
-}
-.remove{
-  border:0;
-  background:none;
-  color:#c23d63;
-  cursor:pointer;
-  margin-left:auto
-}
-.total{
-  border-top:1px solid #efd8e2;
-  margin-top:20px;
-  padding-top:20px;
-  font-size:23px;
-  font-weight:900;
-  color:#d94f8b
-}
-.form input,.form select,.form textarea{
-  width:100%;
-  margin:6px 0 12px;
-  padding:12px;
-  border:1px solid #ecc8d7;
-  border-radius:12px
-}
-.form label{
-  font-size:13px;
-  font-weight:bold
-}
-.order-btn{
-  width:100%;
-  padding:14px;
-  background:#d94f8b;
-  color:white;
-  border:0;
-  border-radius:13px;
-  font-weight:bold;
-  cursor:pointer
-}
-.msg{
-  padding:12px;
-  border-radius:10px;
-  margin:10px 0
-}
-.success{background:#e4f8eb;color:#247844}
-.error{background:#ffe5ec;color:#a32e55}
 
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(3,1fr)}
+.modal.show{
+  display:flex;
 }
-@media(max-width:650px){
-  .header{padding:12px}
-  .logo{font-size:18px}
-  .search{min-width:120px}
-  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  .card img{height:190px}
-  .container{padding:15px 12px}
+
+.modalbox{
+  background:#fff7fb;
+  padding:22px;
+  border-radius:22px;
+  width:100%;
+  max-width:650px;
+  max-height:94vh;
+  overflow:auto;
+}
+
+.detail-image{
+  display:block;
+  width:250px;
+  height:250px;
+  object-fit:contain;
+  margin:auto;
+  border-radius:15px;
+  cursor:zoom-in;
+}
+
+.gallery{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.gallery img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.model{
+  border:0;
+  background:#d94f8b;
+  color:#fff;
+  padding:11px 14px;
+  border-radius:12px;
+  font-weight:bold;
+  margin:4px;
+  cursor:pointer;
+}
+
+.model.selected{
+  background:#8d2d59;
+  box-shadow:0 0 0 3px #f5a7c8;
+}
+
+.btn{
+  width:100%;
+  border:0;
+  background:#d94f8b;
+  color:#fff;
+  padding:13px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+.field{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border:1px solid #efb0ca;
+  border-radius:12px;
+  outline:none;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.summary{
+  background:#fff;
+  padding:13px;
+  border-radius:14px;
+  margin:8px 0;
+}
+
+.total{
+  color:#d94f8b;
+  font-weight:bold;
+}
+
+.close{
+  float:right;
+  border:0;
+  background:#fff;
+  border-radius:50%;
+  font-size:22px;
+  width:34px;
+  height:34px;
+  cursor:pointer;
+}
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:#000d;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+}
+
+.lightbox.show{
+  display:flex;
+}
+
+.lightbox img{
+  max-width:90vw;
+  max-height:88vh;
+}
+
+.ship-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.ship{
+  background:#fff;
+  border:2px solid #f0c0d2;
+  padding:12px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.message-success{
+  background:#e8fff0;
+  color:#237344;
+  padding:15px;
+  border-radius:14px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.message-error{
+  background:#ffe6ee;
+  color:#9b3159;
+  padding:15px;
+  border-radius:14px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+@media(max-width:500px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+
+  .detail-image{
+    width:210px;
+    height:210px;
+  }
+
+  .ship-options{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -260,679 +313,1095 @@ header{
 <body>
 
 <header>
-  <div class="header">
-    <div class="logo">🎀 USTHB CASES</div>
 
-    <input
-      id="search"
-      class="search"
-      placeholder="🔎 Rechercher une coque ou un modèle (ex: iPhone 13)"
-    >
+<a
+  class="admin-logo"
+  href="admin.html"
+  aria-label="Admin"
+  title="Admin">
+  👩‍💼
+</a>
 
-    <button class="cart-btn" onclick="openCart()">
-      🛒 Panier <span id="cartCount">0</span>
-    </button>
-  </div>
+<div class="brand">
+  USTHB CASES
+</div>
+
+<nav class="cats">
+
+<button class="cat active" data-cat="cases">
+CASES
+</button>
+
+<button class="cat" data-cat="accessoires">
+ACCESSOIRES
+</button>
+
+<button class="cat" data-cat="ventouses">
+VENTOUSES
+</button>
+
+<button class="cat" data-cat="ipad">
+IPAD
+</button>
+
+</nav>
+
 </header>
 
-<main class="container">
 
-  <section class="hero">
-    <h1>Les coques que tu vas adorer 💗</h1>
-    <p>
-      Choisis ton modèle, ajoute plusieurs articles au panier
-      et commande tout en une seule fois.
-    </p>
-  </section>
+<input
+  id="search"
+  class="search"
+  placeholder="🔎 Rechercher..."
+>
 
-  <div class="filters">
-    <button class="filter active" onclick="setFilter('all',this)">
-      Tous
-    </button>
-    <button class="filter" onclick="setFilter('cases',this)">
-      📱 Coques
-    </button>
-    <button class="filter" onclick="setFilter('accessoires',this)">
-      ✨ Accessoires
-    </button>
-    <button class="filter" onclick="setFilter('ventouses',this)">
-      🚗 Ventouses
-    </button>
-    <button class="filter" onclick="setFilter('ipad',this)">
-      📱 iPad
-    </button>
+
+<main id="products" class="grid">
+  <div class="empty">
+    Chargement…
   </div>
-
-  <div id="products" class="grid">
-    <div class="empty">Chargement...</div>
-  </div>
-
 </main>
 
-<!-- PANIER -->
-<div id="overlay" class="overlay">
 
-  <aside class="cart">
+<!-- DETAILS -->
 
-    <div class="cart-head">
-      <h2>🛒 Mon panier</h2>
-      <button class="close" onclick="closeCart()">✕</button>
-    </div>
+<div id="details" class="modal">
 
-    <div id="cartItems"></div>
+<div class="modalbox">
 
-    <div class="total">
-      Total : <span id="cartTotal">0 DA</span>
-    </div>
+<button
+  class="close"
+  onclick="closeDetails()">
+×
+</button>
 
-    <hr>
-
-    <h3>📦 Informations de livraison</h3>
-
-    <div class="form">
-
-      <label>Nom</label>
-      <input id="nom" placeholder="Nom">
-
-      <label>Prénom</label>
-      <input id="prenom" placeholder="Prénom">
-
-      <label>Téléphone</label>
-      <input id="telephone" type="tel" placeholder="0555...">
-
-      <label>Wilaya</label>
-      <select id="wilaya">
-        <option value="">Choisir une wilaya</option>
-      </select>
-
-      <label>Livraison</label>
-      <select id="livraison">
-        <option value="">Choisir</option>
-        <option value="USTHB">🎓 USTHB</option>
-        <option value="Bureau">📦 Bureau</option>
-        <option value="Domicile">🏠 Domicile</option>
-      </select>
-
-      <label>Adresse</label>
-      <textarea
-        id="adresse"
-        placeholder="Adresse complète si livraison à domicile"
-      ></textarea>
-
-      <div id="orderMessage"></div>
-
-      <button class="order-btn" onclick="placeOrder()">
-        💗 Passer la commande
-      </button>
-
-    </div>
-
-  </aside>
+<div id="detailContent"></div>
 
 </div>
+
+</div>
+
+
+<!-- COMMANDE -->
+
+<div id="order" class="modal">
+
+<div class="modalbox">
+
+<button
+  class="close"
+  onclick="closeOrder()">
+×
+</button>
+
+<h2>🛍️ Commander</h2>
+
+
+<div
+  id="orderProduct"
+  class="summary">
+</div>
+
+
+<form id="orderForm">
+
+
+<input
+  id="firstName"
+  class="field"
+  placeholder="Nom"
+  required
+>
+
+
+<input
+  id="lastName"
+  class="field"
+  placeholder="Prénom"
+  required
+>
+
+
+<input
+  id="phone"
+  class="field"
+  type="tel"
+  placeholder="Numéro de téléphone"
+  required
+>
+
+
+<select
+  id="wilaya"
+  class="field"
+  required>
+
+<option value="">
+Choisir la wilaya
+</option>
+
+</select>
+
+
+<h3>📦 Livraison</h3>
+
+<div class="ship-options">
+
+<label class="ship">
+
+<input
+  type="radio"
+  name="delivery"
+  value="Domicile"
+  required
+>
+
+Domicile
+
+</label>
+
+
+<label class="ship">
+
+<input
+  type="radio"
+  name="delivery"
+  value="Bureau"
+>
+
+Bureau (Stop Desk)
+
+</label>
+
+
+<label class="ship">
+
+<input
+  type="radio"
+  name="delivery"
+  value="USTHB"
+>
+
+USTHB
+
+</label>
+
+</div>
+
+
+<textarea
+  id="address"
+  class="field hidden"
+  placeholder="Adresse complète">
+</textarea>
+
+
+<div class="summary">
+
+Produit :
+<b id="productTotal"></b>
+
+<br>
+
+Livraison :
+<b id="deliveryCost">—</b>
+
+<br>
+
+<span class="total">
+
+Total :
+<span id="grandTotal">—</span>
+
+</span>
+
+</div>
+
+
+<button
+  class="btn"
+  type="submit">
+
+Confirmer la commande
+
+</button>
+
+</form>
+
+
+<div
+  id="orderMsg"
+  class="hidden">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- LIGHTBOX -->
+
+<div
+  id="lightbox"
+  class="lightbox"
+  onclick="closeLightbox()">
+
+<img id="lightImage">
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
 const db = supabase.createClient(
   'https://sydurxdeqjgyuzvotmth.supabase.co',
-  'sb_publishable_YtZkRYlml5U_6OtOKcnny'
+  'sb_publishable_YtZkRYlml5U_6OtOKcnnyQ_smF0CELK'
 );
 
-let products = [];
-let cart = [];
-let currentFilter = 'all';
+
+let all = [];
+let current = null;
+let selectedModel = null;
+let activeCat = 'cases';
+
+
+const $ = id => document.getElementById(id);
+
+
+const esc = s =>
+  String(s ?? '').replace(
+    /[&<>"']/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[c])
+  );
+
+
+const money = n =>
+  Number(n || 0).toLocaleString('fr-DZ') + ' DA';
+
+
+const imgs = v =>
+  String(v || '')
+    .split('||')
+    .map(x => x.trim())
+    .filter(Boolean);
+
+
+const models = v =>
+  String(v || '')
+    .split('||')
+    .map(x => x.trim())
+    .filter(Boolean);
+
 
 const wilayas = [
-'Adrar','Chlef','Laghouat','Oum El Bouaghi','Batna',
-'Béjaïa','Biskra','Béchar','Blida','Bouira',
-'Tamanrasset','Tébessa','Tlemcen','Tiaret','Tizi Ouzou',
-'Alger','Djelfa','Jijel','Sétif','Saïda','Skikda',
-'Sidi Bel Abbès','Annaba','Guelma','Constantine','Médéa',
-'Mostaganem','M’Sila','Mascara','Ouargla','Oran',
-'El Bayadh','Illizi','Bordj Bou Arreridj','Boumerdès',
-'El Tarf','Tindouf','Tissemsilt','El Oued','Khenchela',
-'Souk Ahras','Tipaza','Mila','Aïn Defla','Naâma',
-'Aïn Témouchent','Ghardaïa','Relizane','Timimoun',
-'Bordj Badji Mokhtar','Ouled Djellal','Béni Abbès',
-'In Salah','In Guezzam','Touggourt','Djanet',
-'El M’Ghair','El Meniaa'
+'Adrar',
+'Chlef',
+'Laghouat',
+'Oum El Bouaghi',
+'Batna',
+'Béjaïa',
+'Biskra',
+'Béchar',
+'Blida',
+'Bouira',
+'Tamanrasset',
+'Tébessa',
+'Tlemcen',
+'Tiaret',
+'Tizi Ouzou',
+'Alger',
+'Djelfa',
+'Jijel',
+'Sétif',
+'Saïda',
+'Skikda',
+'Sidi Bel Abbès',
+'Annaba',
+'Guelma',
+'Constantine',
+'Médéa',
+'Mostaganem',
+'M’Sila',
+'Mascara',
+'Ouargla',
+'Oran',
+'El Bayadh',
+'Illizi',
+'Bordj Bou Arreridj',
+'Boumerdès',
+'El Tarf',
+'Tindouf',
+'Tissemsilt',
+'El Oued',
+'Khenchela',
+'Souk Ahras',
+'Tipaza',
+'Mila',
+'Aïn Defla',
+'Naâma',
+'Aïn Témouchent',
+'Ghardaïa',
+'Relizane',
+'Timimoun',
+'Bordj Badji Mokhtar',
+'Ouled Djellal',
+'Beni Abbes',
+'In Salah',
+'In Guezzam',
+'Touggourt',
+'Djanet',
+'El M’Ghair',
+'El Meniaa'
 ];
 
-wilayas.forEach(w=>{
-  document.getElementById('wilaya').insertAdjacentHTML(
+
+const domicile = [
+1200,750,800,750,750,750,800,1200,650,750,
+1900,800,750,750,750,500,800,750,750,800,
+750,750,750,750,750,750,750,750,750,850,
+750,850,2000,750,750,750,1600,750,850,750,
+750,650,750,750,850,750,850,750,1450,2000,
+850,1300,1800,2000,850,2000,850,950
+];
+
+
+const bureau = [
+800,450,500,450,450,450,500,800,450,450,
+1300,500,500,450,450,350,450,450,450,450,
+450,450,450,450,450,450,450,450,500,600,
+450,450,1300,450,450,500,1000,500,500,450,
+550,500,450,450,600,500,600,500,1000,1300,
+500,900,1100,1300,600,1300,500,600
+];
+
+
+wilayas.forEach((w,i)=>{
+
+  $('wilaya').insertAdjacentHTML(
     'beforeend',
-    `<option value="${escapeHtml(w)}">${escapeHtml(w)}</option>`
+    `<option value="${i}">${w}</option>`
   );
+
 });
 
-function escapeHtml(v){
-  return String(v ?? '').replace(/[&<>"']/g,c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;',
-    '"':'&quot;',"'":'&#39;'
-  }[c]));
-}
 
-function getImages(p){
-  return String(p.image_url || '')
-    .split('||')
-    .map(x=>x.trim())
-    .filter(Boolean);
-}
+async function load(){
 
-function getModels(p){
-  return String(p.modele || '')
-    .split('||')
-    .map(x=>x.trim())
-    .filter(Boolean);
-}
-
-async function loadProducts(){
-
-  const {data,error} = await db
+  const r = await db
     .from('coques')
     .select('*')
     .order('created_at',{ascending:false});
 
-  if(error){
-    document.getElementById('products').innerHTML =
-      `<div class="empty">❌ ${escapeHtml(error.message)}</div>`;
+
+  if(r.error){
+
+    $('products').innerHTML =
+      '<div class="empty">Erreur : '
+      + esc(r.error.message)
+      + '</div>';
+
     return;
   }
 
-  products = data || [];
-  renderProducts();
+
+  all = r.data || [];
+
+  render();
+
 }
 
-function renderProducts(){
 
-  const search =
-    document.getElementById('search')
-      .value.toLowerCase().trim();
+function category(p){
 
-  const filtered = products.filter(p=>{
+  return String(
+    p.categorie || 'cases'
+  )
+  .trim()
+  .toLowerCase();
 
-    if(p.disponible === false) return false;
+}
 
-    if(currentFilter !== 'all' &&
-       String(p.categorie || 'cases') !== currentFilter){
-      return false;
-    }
 
-    const text = [
-      p.nom,
-      p.modele,
-      p.categorie
-    ].join(' ').toLowerCase();
+function render(){
 
-    /*
-      RECHERCHE PAR MODÈLE :
-      "iphone 13" trouve une coque dont
-      le champ modele contient iPhone 13.
-    */
-    return text.includes(search);
-  });
+  const q =
+    $('search')
+      .value
+      .toLowerCase()
+      .trim();
 
-  if(!filtered.length){
-    document.getElementById('products').innerHTML =
-      `<div class="empty">
-        🔎 Aucun article trouvé.
-      </div>`;
-    return;
-  }
 
-  document.getElementById('products').innerHTML =
-    filtered.map(p=>{
+  const a = all.filter(p =>
 
-      const image = getImages(p)[0] || '';
-      const modelList = getModels(p);
+    p.disponible !== false &&
 
-      return `
-      <article class="card">
+    category(p) === activeCat &&
 
-        <img src="${escapeHtml(image)}" alt="">
+    (p.nom || '')
+      .toLowerCase()
+      .includes(q)
 
-        <div class="card-body">
+  );
 
-          <h3>${escapeHtml(p.nom)}</h3>
 
-          <div class="price">
-            ${Number(p.prix || 0).toLocaleString('fr-DZ')} DA
-          </div>
+  $('products').innerHTML = a.length
 
-          <div class="model">
-            📱 ${
-              modelList.length
-                ? escapeHtml(modelList.join(' • '))
-                : 'Tous modèles'
-            }
-          </div>
+    ? a.map(p => `
 
-          <button
-            class="add"
-            onclick="addToCart('${escapeHtml(p.id)}')"
-          >
-            🛒 Ajouter au panier
-          </button>
+      <article
+        class="card"
+        onclick="openDetails('${p.id}')">
 
+        <img
+          src="${esc(
+            imgs(p.image_url)[0] || ''
+          )}">
+
+        <h3>
+          ${esc(p.nom)}
+        </h3>
+
+        <div class="price">
+          ${money(p.prix)}
         </div>
 
       </article>
-      `;
-    }).join('');
+
+    `).join('')
+
+    :
+
+    `<div class="empty">
+      Aucun produit dans cette catégorie 💗
+    </div>`;
+
 }
 
-document.getElementById('search')
-.addEventListener('input',renderProducts);
 
-function setFilter(filter,button){
+document
+  .querySelectorAll('.cat')
+  .forEach(b => {
 
-  currentFilter = filter;
+    b.onclick = () => {
 
-  document.querySelectorAll('.filter')
-    .forEach(x=>x.classList.remove('active'));
+      document
+        .querySelectorAll('.cat')
+        .forEach(x =>
+          x.classList.remove('active')
+        );
 
-  button.classList.add('active');
+      b.classList.add('active');
 
-  renderProducts();
+      activeCat = b.dataset.cat;
+
+      render();
+
+    };
+
+  });
+
+
+function openLight(src,e){
+
+  e?.stopPropagation();
+
+  $('lightImage').src = src;
+
+  $('lightbox')
+    .classList
+    .add('show');
+
 }
 
-/* ==========================
-   PANIER
-========================== */
 
-function addToCart(id){
+function closeLightbox(){
 
-  const product = products.find(
-    p=>String(p.id) === String(id)
-  );
+  $('lightbox')
+    .classList
+    .remove('show');
 
-  if(!product) return;
+}
 
-  /*
-    Chaque modèle choisi est conservé dans
-    l'article du panier.
-  */
-  const models = getModels(product);
 
-  let model = models[0] || product.nom;
+function openDetails(id){
 
-  if(models.length > 1){
-
-    const answer = prompt(
-      'Choisis le modèle :\n\n' +
-      models.map((m,i)=>`${i+1}. ${m}`).join('\n')
+  current =
+    all.find(
+      p => String(p.id) === String(id)
     );
 
-    const index = Number(answer) - 1;
 
-    if(!Number.isNaN(index) && models[index]){
-      model = models[index];
-    }else if(answer !== null){
-      return;
+  if(!current) return;
+
+
+  selectedModel = null;
+
+
+  const g = imgs(current.image_url);
+
+  const isCase =
+    category(current) === 'cases';
+
+  const ms =
+    models(current.modele);
+
+
+  $('detailContent').innerHTML = `
+
+    <img
+      class="detail-image"
+      src="${esc(g[0] || '')}"
+      onclick="openLight(this.src,event)"
+    >
+
+    ${
+      g.length > 1
+
+      ?
+
+      `<div class="gallery">
+
+        ${
+          g.map(x => `
+
+            <img
+              src="${esc(x)}"
+              onclick="openLight(this.src,event)"
+            >
+
+          `).join('')
+        }
+
+      </div>`
+
+      :
+
+      ''
     }
-  }
 
-  const existing = cart.find(
-    x =>
-      String(x.productId) === String(id) &&
-      x.modele === model
-  );
 
-  if(existing){
-    existing.quantite++;
-  }else{
+    <h2>
+      ${esc(current.nom)}
+    </h2>
 
-    cart.push({
-      productId:product.id,
-      nom:product.nom,
-      modele:model,
-      prix:Number(product.prix || 0),
-      image:getImages(product)[0] || '',
-      quantite:1
-    });
 
-  }
+    <div class="price">
+      ${money(current.prix)}
+    </div>
 
-  saveCart();
-  renderCart();
-  openCart();
-}
 
-function increase(index){
-  cart[index].quantite++;
-  saveCart();
-  renderCart();
-}
+    ${
+      isCase
 
-function decrease(index){
+      ?
 
-  cart[index].quantite--;
+      `
 
-  if(cart[index].quantite <= 0){
-    cart.splice(index,1);
-  }
+      <h3>
+        📱 Modèle
+      </h3>
 
-  saveCart();
-  renderCart();
-}
+      <div>
 
-function removeItem(index){
+        ${
+          ms.length
 
-  cart.splice(index,1);
+          ?
 
-  saveCart();
-  renderCart();
-}
+          ms.map((m,i) => `
 
-function cartTotal(){
+            <button
+              class="model"
+              id="model-${i}"
+              onclick="selectModel('${esc(m)}',${i})">
 
-  return cart.reduce(
-    (sum,item)=>
-      sum + item.prix * item.quantite,
-    0
-  );
-}
+              ${esc(m)}
 
-function renderCart(){
+            </button>
 
-  document.getElementById('cartCount')
-    .textContent =
-      cart.reduce(
-        (sum,x)=>sum+x.quantite,
-        0
-      );
+          `).join('')
 
-  document.getElementById('cartTotal')
-    .textContent =
-      cartTotal().toLocaleString('fr-DZ') + ' DA';
+          :
 
-  if(!cart.length){
-
-    document.getElementById('cartItems').innerHTML =
-      `<div class="empty">
-        🛒 Ton panier est vide.
-      </div>`;
-
-    return;
-  }
-
-  document.getElementById('cartItems').innerHTML =
-    cart.map((item,index)=>`
-
-      <div class="cart-item">
-
-        <div class="cart-item-top">
-
-          <img src="${escapeHtml(item.image)}">
-
-          <div style="flex:1">
-
-            <b>${escapeHtml(item.nom)}</b>
-
-            <div style="font-size:13px;color:#896b78">
-              📱 ${escapeHtml(item.modele)}
-            </div>
-
-            <div style="color:#d94f8b;font-weight:bold">
-              ${item.prix.toLocaleString('fr-DZ')} DA
-            </div>
-
-          </div>
-
-          <button
-            class="remove"
-            onclick="removeItem(${index})"
-          >
-            🗑️
-          </button>
-
-        </div>
-
-        <div class="qty">
-
-          <button onclick="decrease(${index})">
-            −
-          </button>
-
-          <b>${item.quantite}</b>
-
-          <button onclick="increase(${index})">
-            +
-          </button>
-
-          <span style="margin-left:auto;font-weight:bold">
-            ${(item.prix * item.quantite)
-              .toLocaleString('fr-DZ')} DA
-          </span>
-
-        </div>
+          '<p>Aucun modèle renseigné</p>'
+        }
 
       </div>
 
-    `).join('');
+      `
+
+      :
+
+      ''
+    }
+
+
+    <button
+      class="btn"
+      onclick="openOrder(event)">
+
+      🛍️ COMMANDER
+
+    </button>
+
+  `;
+
+
+  $('details')
+    .classList
+    .add('show');
+
 }
 
-function saveCart(){
-  localStorage.setItem(
-    'usthb_cart',
-    JSON.stringify(cart)
+
+function selectModel(model,index){
+
+  selectedModel = model;
+
+
+  document
+    .querySelectorAll('.model')
+    .forEach(x =>
+      x.classList.remove('selected')
+    );
+
+
+  const button =
+    document.getElementById(
+      'model-' + index
+    );
+
+
+  if(button)
+    button.classList.add('selected');
+
+}
+
+
+function closeDetails(){
+
+  $('details')
+    .classList
+    .remove('show');
+
+}
+
+
+function openOrder(e){
+
+  e?.stopPropagation();
+
+
+  const isCase =
+    category(current) === 'cases';
+
+
+  if(
+    isCase &&
+    models(current.modele).length &&
+    !selectedModel
+  ){
+
+    alert(
+      'Veuillez choisir le modèle du téléphone.'
+    );
+
+    return;
+
+  }
+
+
+  $('details')
+    .classList
+    .remove('show');
+
+
+  $('orderProduct').innerHTML = `
+
+    <b>
+      ${esc(current.nom)}
+    </b>
+
+    ${
+      selectedModel
+
+      ?
+
+      `<br>📱 Modèle :
+       <b>${esc(selectedModel)}</b>`
+
+      :
+
+      ''
+    }
+
+    <br>
+
+    ${money(current.prix)}
+
+  `;
+
+
+  $('productTotal').textContent =
+    money(current.prix);
+
+
+  $('deliveryCost').textContent =
+    '—';
+
+
+  $('grandTotal').textContent =
+    money(current.prix);
+
+
+  $('orderMsg')
+    .className =
+    'hidden';
+
+
+  $('order')
+    .classList
+    .add('show');
+
+}
+
+
+function closeOrder(){
+
+  $('order')
+    .classList
+    .remove('show');
+
+}
+
+
+document
+  .querySelectorAll(
+    'input[name=delivery]'
+  )
+  .forEach(r => {
+
+    r.onchange = () => {
+
+      const d =
+        document.querySelector(
+          'input[name=delivery]:checked'
+        )?.value;
+
+
+      $('address')
+        .classList
+        .toggle(
+          'hidden',
+          d !== 'Domicile'
+        );
+
+
+      updateTotal();
+
+    };
+
+  });
+
+
+$('wilaya').onchange =
+  updateTotal;
+
+
+function updateTotal(){
+
+  const i =
+    Number($('wilaya').value);
+
+
+  const d =
+    document.querySelector(
+      'input[name=delivery]:checked'
+    )?.value;
+
+
+  let c = 0;
+
+
+  if(
+    d === 'Domicile' &&
+    i >= 0
+  ){
+
+    c = domicile[i] || 0;
+
+  }
+
+
+  else if(
+    d === 'Bureau' &&
+    i >= 0
+  ){
+
+    c = bureau[i] || 0;
+
+  }
+
+
+  else if(
+    d === 'USTHB'
+  ){
+
+    c = 0;
+
+  }
+
+
+  $('deliveryCost').textContent =
+    d ? money(c) : '—';
+
+
+  $('grandTotal').textContent =
+    money(
+      Number(current?.prix || 0) + c
+    );
+
+}
+
+
+$('orderForm').onsubmit =
+async e => {
+
+  e.preventDefault();
+
+
+  const d =
+    document.querySelector(
+      'input[name=delivery]:checked'
+    )?.value;
+
+
+  if(!d){
+
+    alert('Choisissez le type de livraison.');
+
+    return;
+
+  }
+
+
+  if(
+    category(current) === 'cases' &&
+    models(current.modele).length &&
+    !selectedModel
+  ){
+
+    alert(
+      'Veuillez choisir le modèle du téléphone.'
+    );
+
+    return;
+
+  }
+
+
+  if(
+    d === 'Domicile' &&
+    !$('address').value.trim()
+  ){
+
+    alert(
+      'Veuillez écrire votre adresse.'
+    );
+
+    return;
+
+  }
+
+
+  const i =
+    Number($('wilaya').value);
+
+
+  if(
+    !Number.isInteger(i) ||
+    i < 0 ||
+    i >= wilayas.length
+  ){
+
+    alert(
+      'Choisissez votre wilaya.'
+    );
+
+    return;
+
+  }
+
+
+  let frais = 0;
+
+
+  if(d === 'Domicile')
+    frais = domicile[i] || 0;
+
+  if(d === 'Bureau')
+    frais = bureau[i] || 0;
+
+  if(d === 'USTHB')
+    frais = 0;
+
+
+  /*
+    IMPORTANT :
+
+    On utilise EXACTEMENT
+    les colonnes de ta table Supabase :
+
+    coque_id
+    modele
+    nom
+    prenom
+    telephone
+    adresse
+    livraison
+    created_at
+  */
+
+
+  const payload = {
+
+    coque_id:
+      current.id,
+
+    modele:
+      selectedModel ||
+      current.modele ||
+      current.nom,
+
+    nom:
+      $('firstName')
+        .value
+        .trim(),
+
+    prenom:
+      $('lastName')
+        .value
+        .trim(),
+
+    telephone:
+      $('phone')
+        .value
+        .trim(),
+
+    adresse:
+      d === 'Domicile'
+
+      ? $('address')
+          .value
+          .trim()
+
+      : wilayas[i],
+
+    livraison:
+      d,
+
+    created_at:
+      new Date()
+        .toISOString()
+
+  };
+
+
+  console.log(
+    'Commande envoyée à Supabase :',
+    payload
   );
-}
 
-function loadCart(){
 
-  try{
-    cart =
-      JSON.parse(
-        localStorage.getItem('usthb_cart')
-      ) || [];
-  }catch{
-    cart=[];
-  }
-
-  renderCart();
-}
-
-function openCart(){
-  document.getElementById('overlay')
-    .classList.add('show');
-}
-
-function closeCart(){
-  document.getElementById('overlay')
-    .classList.remove('show');
-}
-
-/* ==========================
-   COMMANDE
-========================== */
-
-function deliveryPrice(){
-
-  const type =
-    document.getElementById('livraison').value;
-
-  if(type === 'USTHB') return 0;
-  if(type === 'Bureau') return 500;
-  if(type === 'Domicile') return 700;
-
-  return 0;
-}
-
-async function placeOrder(){
-
-  if(!cart.length){
-
-    showMessage(
-      '❌ Ton panier est vide.',
-      true
-    );
-
-    return;
-  }
-
-  const nom =
-    document.getElementById('nom').value.trim();
-
-  const prenom =
-    document.getElementById('prenom').value.trim();
-
-  const telephone =
-    document.getElementById('telephone').value.trim();
-
-  const wilaya =
-    document.getElementById('wilaya').value;
-
-  const livraison =
-    document.getElementById('livraison').value;
-
-  const adresse =
-    document.getElementById('adresse').value.trim();
-
-  if(!nom || !prenom || !telephone ||
-     !wilaya || !livraison){
-
-    showMessage(
-      '❌ Remplis tous les champs obligatoires.',
-      true
-    );
-
-    return;
-  }
-
-  if(livraison === 'Domicile' && !adresse){
-
-    showMessage(
-      '❌ Ajoute ton adresse.',
-      true
-    );
-
-    return;
-  }
-
-  const livraisonCost = deliveryPrice();
-
-  const total =
-    cartTotal() + livraisonCost;
-
-  /*
-    On conserve une adresse lisible
-    avec la wilaya.
-  */
-  const finalAddress =
-    livraison === 'Domicile'
-      ? `${adresse} — ${wilaya}`
-      : wilaya;
-
-  /*
-    Création de la commande principale.
-  */
-  const {data:order,error:orderError} =
+  const r =
     await db
       .from('commandes')
-      .insert({
-        nom,
-        prenom,
-        telephone,
-        adresse:finalAddress,
-        livraison,
-        statut:'En attente',
-        total
-      })
-      .select()
-      .single();
+      .insert(payload);
 
-  if(orderError){
 
-    showMessage(
-      '❌ Commande non enregistrée : ' +
-      orderError.message,
-      true
+  if(r.error){
+
+    console.error(
+      'ERREUR SUPABASE :',
+      r.error
     );
 
+
+    $('orderMsg').className =
+      'message-error';
+
+
+    $('orderMsg').innerHTML =
+
+      '❌ Commande non enregistrée.<br><br>' +
+
+      esc(r.error.message);
+
     return;
+
   }
+
 
   /*
-    Tous les articles du panier
-    deviennent des lignes liées
-    à cette commande.
+    SUCCÈS
   */
-  const articles = cart.map(item=>({
 
-    commande_id:order.id,
 
-    produit_id:item.productId,
+  $('orderMsg').className =
+    'message-success';
 
-    nom_produit:item.nom,
 
-    modele:item.modele,
+  $('orderMsg').innerHTML =
 
-    prix:item.prix,
+    '✅ Commande enregistrée avec succès !<br>' +
 
-    quantite:item.quantite,
+    'Votre commande a bien été envoyée. 💗';
 
-    image_url:item.image
 
-  }));
+  $('orderForm').reset();
 
-  const {error:articleError} =
-    await db
-      .from('commande_articles')
-      .insert(articles);
 
-  if(articleError){
+  $('address')
+    .classList
+    .add('hidden');
 
-    /*
-      Si les articles n'ont pas pu être enregistrés,
-      on supprime la commande principale
-      pour éviter une commande vide.
-    */
-    await db
-      .from('commandes')
-      .delete()
-      .eq('id',order.id);
 
-    showMessage(
-      '❌ Les articles n’ont pas pu être enregistrés : ' +
-      articleError.message,
-      true
-    );
+  selectedModel = null;
 
-    return;
-  }
 
-  showMessage(
-    '✅ Commande enregistrée avec succès !',
-    false
-  );
+  /*
+    On garde la fenêtre ouverte
+    quelques secondes pour que
+    la cliente voie la confirmation.
+  */
 
-  cart=[];
-  saveCart();
-  renderCart();
 
-  document.getElementById('nom').value='';
-  document.getElementById('prenom').value='';
-  document.getElementById('telephone').value='';
-  document.getElementById('wilaya').value='';
-  document.getElementById('livraison').value='';
-  document.getElementById('adresse').value='';
-}
+  setTimeout(() => {
 
-function showMessage(text,error){
+    closeOrder();
 
-  const el =
-    document.getElementById('orderMessage');
+    $('orderMsg')
+      .classList
+      .add('hidden');
 
-  el.className =
-    'msg ' +
-    (error ? 'error' : 'success');
+  }, 3000);
 
-  el.textContent=text;
-}
+};
 
-loadCart();
-loadProducts();
+
+load();
+
+
+$('search').oninput =
+  render;
 
 </script>
 
