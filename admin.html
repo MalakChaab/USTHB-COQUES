@@ -2783,6 +2783,93 @@ async function loadOrders(){
     result.data || [];
 
 
+  /* ================================================
+     RÉCUPÉRER LES PRODUITS DES COMMANDES
+
+     On utilise coque_id pour retrouver le produit
+     dans la table coques, puis on affiche sa photo.
+  ================================================= */
+
+  const productIds = [
+    ...new Set(
+      orders
+        .map(order => order.coque_id)
+        .filter(Boolean)
+        .map(id => String(id))
+    )
+  ];
+
+
+  if(productIds.length){
+
+    const productsResult =
+      await db
+      .from('coques')
+      .select('id,nom,image_url,prix,categorie')
+      .in(
+        'id',
+        productIds
+      );
+
+
+    if(!productsResult.error){
+
+      const productsById =
+        {};
+
+
+      (productsResult.data || [])
+      .forEach(product => {
+
+        productsById[
+          String(product.id)
+        ] = product;
+
+      });
+
+
+      orders =
+        orders.map(order => ({
+
+          ...order,
+
+          product:
+            productsById[
+              String(order.coque_id)
+            ] || null
+
+        }));
+
+    }
+
+    else{
+
+      console.error(
+        'Erreur chargement produits des commandes:',
+        productsResult.error
+      );
+
+      orders =
+        orders.map(order => ({
+          ...order,
+          product:null
+        }));
+
+    }
+
+  }
+
+  else{
+
+    orders =
+      orders.map(order => ({
+        ...order,
+        product:null
+      }));
+
+  }
+
+
   updateOrderStats();
 
   renderOrders();
@@ -2861,6 +2948,10 @@ function renderOrders(){
   const filtered =
     orders.filter(order => {
 
+      const productName =
+        order.product?.nom || '';
+
+
       const text =
         [
 
@@ -2878,7 +2969,9 @@ function renderOrders(){
 
           order.livraison,
 
-          order.statut
+          order.statut,
+
+          productName
 
         ]
         .join(' ')
@@ -2915,6 +3008,92 @@ function renderOrders(){
 
       const processed =
         order.statut === 'Traitée';
+
+
+      const product =
+        order.product;
+
+
+      const productImages =
+        product?.image_url
+          ? images(product.image_url)
+          : [];
+
+
+      const productImage =
+        productImages[0] || '';
+
+
+      const productName =
+        product?.nom ||
+        'Produit introuvable';
+
+
+      const productPhoto =
+        productImage
+
+          ? `
+
+            <img
+              src="${esc(productImage)}"
+              alt="${esc(productName)}"
+              style="
+                width:110px;
+                height:110px;
+                object-fit:cover;
+                border-radius:16px;
+                border:1px solid #eee;
+                box-shadow:0 4px 12px rgba(0,0,0,.08);
+                background:#fff;
+                display:block;
+              "
+              onerror="
+                this.style.display='none';
+                this.nextElementSibling.style.display='flex';
+              "
+            >
+
+            <div
+              style="
+                display:none;
+                width:110px;
+                height:110px;
+                border-radius:16px;
+                background:#f8f1f4;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                color:#987583;
+                font-size:13px;
+              "
+            >
+              📷 Photo<br>
+              indisponible
+            </div>
+
+          `
+
+          : `
+
+            <div
+              style="
+                width:110px;
+                height:110px;
+                border-radius:16px;
+                background:#f8f1f4;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                color:#987583;
+                font-size:13px;
+              "
+            >
+              📷<br>
+              Photo indisponible
+            </div>
+
+          `;
 
 
       return `
@@ -2962,6 +3141,98 @@ function renderOrders(){
             }
 
           </span>
+
+
+        </div>
+
+
+        <!-- =========================================
+             PRODUIT COMMANDÉ + PHOTO
+        ========================================== -->
+
+        <div
+          style="
+            display:flex;
+            gap:20px;
+            align-items:center;
+            margin-bottom:20px;
+            padding:15px;
+            border-radius:16px;
+            background:#fff7fa;
+            border:1px solid #f3e2e8;
+          "
+        >
+
+          <div
+            style="
+              flex-shrink:0;
+            "
+          >
+
+            ${productPhoto}
+
+          </div>
+
+
+          <div
+            style="
+              flex:1;
+              min-width:0;
+            "
+          >
+
+            <div class="order-label">
+              PRODUIT COMMANDÉ
+            </div>
+
+
+            <h3
+              style="
+                margin:5px 0 12px;
+                font-size:18px;
+              "
+            >
+
+              ${esc(productName)}
+
+            </h3>
+
+
+            <div class="order-label">
+              MODÈLE DU TÉLÉPHONE
+            </div>
+
+
+            <div
+              style="
+                margin-top:5px;
+                font-weight:600;
+              "
+            >
+
+              📱 ${esc(
+                order.modele || '—'
+              )}
+
+            </div>
+
+
+            <div
+              style="
+                margin-top:10px;
+                color:#987583;
+                font-size:12px;
+              "
+            >
+
+              ID produit : ${esc(
+                order.coque_id || '—'
+              )}
+
+            </div>
+
+
+          </div>
 
 
         </div>
@@ -3015,19 +3286,6 @@ function renderOrders(){
           <div class="order-info">
 
             <div class="order-label">
-              MODÈLE
-            </div>
-
-            📱 ${esc(
-              order.modele || '—'
-            )}
-
-          </div>
-
-
-          <div class="order-info">
-
-            <div class="order-label">
               ADRESSE
             </div>
 
@@ -3051,19 +3309,6 @@ function renderOrders(){
               )}
 
             </span>
-
-          </div>
-
-
-          <div class="order-info">
-
-            <div class="order-label">
-              PRODUIT ID
-            </div>
-
-            ${esc(
-              order.coque_id || '—'
-            )}
 
           </div>
 
