@@ -107,6 +107,12 @@ header{
 }
 
 
+
+/* Numéro : chiffres uniquement, maximum 10 */
+$('phone').addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g,'').slice(0,10);
+});
+
 /* =========================
    SEARCH
 ========================= */
@@ -435,6 +441,31 @@ textarea.field{
 
 
 /* =========================
+   EPUISE
+========================= */
+.card.sold-out{
+  opacity:.72;
+  position:relative;
+}
+
+.sold-badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:#222;
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.btn[disabled]{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -646,7 +677,12 @@ textarea.field{
   id="phone"
   class="field"
   type="tel"
-  placeholder="Numéro de téléphone"
+  inputmode="numeric"
+  pattern="[0-9]{10}"
+  minlength="10"
+  maxlength="10"
+  placeholder="Numéro de téléphone (10 chiffres)"
+  title="Le numéro doit contenir exactement 10 chiffres"
   required
 >
 
@@ -1059,12 +1095,47 @@ async function load(){
 
   all = r.data || [];
 
+  /* =========================
+     ARTICLES DEJA COMMANDES
+     Lecture uniquement :
+     aucune commande n'est modifiée.
+  ========================= */
+
+  const ordersResult = await db
+    .from('commandes')
+    .select('coque_id');
+
+  if(ordersResult.error){
+
+    console.warn(
+      'Impossible de lire les commandes:',
+      ordersResult.error.message
+    );
+
+    all = all.map(p => ({
+      ...p,
+      epuise:false
+    }));
+
+  } else {
+
+    const orderedIds = new Set(
+      (ordersResult.data || [])
+        .map(order => String(order.coque_id))
+        .filter(id => id !== 'null' && id !== 'undefined' && id !== '')
+    );
+
+    all = all.map(p => ({
+      ...p,
+      epuise: orderedIds.has(String(p.id))
+    }));
+
+  }
 
   console.log(
     'Produits chargés:',
     all
   );
-
 
   render();
 
@@ -1230,7 +1301,7 @@ function render(){
 
       <article
 
-        class="card"
+        class="card ${p.epuise ? 'sold-out' : ''}"
 
         onclick="openDetails('${esc(p.id)}')"
 
@@ -1290,6 +1361,15 @@ function render(){
 
         </div>
 
+        ${
+          p.epuise
+          ? `
+            <div class="sold-badge">
+              ❌ ÉPUISÉ
+            </div>
+          `
+          : ''
+        }
 
       </article>
 
@@ -1576,11 +1656,11 @@ function openDetails(id){
 
       class="btn"
 
-      onclick="openOrder(event)"
+      ${current.epuise ? 'disabled' : 'onclick="openOrder(event)"'}
 
     >
 
-      🛍️ COMMANDER
+      ${current.epuise ? '❌ ÉPUISÉ' : '🛍️ COMMANDER'}
 
     </button>
 
@@ -1963,6 +2043,25 @@ function updateTotal(){
 
 
 /* =========================
+   TELEPHONE : EXACTEMENT 10 CHIFFRES
+========================= */
+
+const phoneInput = document.getElementById('phone');
+
+if(phoneInput){
+
+  phoneInput.addEventListener('input', function(){
+
+    this.value = this.value
+      .replace(/\D/g, '')
+      .slice(0, 10);
+
+  });
+
+}
+
+
+/* =========================
    ENVOYER COMMANDE
 ========================= */
 
@@ -1984,6 +2083,16 @@ async function(e){
 
   }
 
+
+
+  const telephone = $('phone').value.trim();
+
+  if(!/^\d{10}$/.test(telephone)){
+    $('phone').setCustomValidity('Le numéro doit contenir exactement 10 chiffres.');
+    $('phone').reportValidity();
+    $('phone').setCustomValidity('');
+    return;
+  }
 
 
   const delivery =
@@ -2179,10 +2288,7 @@ async function(e){
 
 
     telephone:
-
-      $('phone')
-        .value
-        .trim(),
+      telephone,
 
 
     adresse:
@@ -2344,6 +2450,8 @@ async function(e){
      RESET
   ========================= */
 
+  await load();
+
   $('orderForm').reset();
 
 
@@ -2380,6 +2488,12 @@ async function(e){
 };
 
 
+
+
+/* Numéro : chiffres uniquement, maximum 10 */
+$('phone').addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g,'').slice(0,10);
+});
 
 /* =========================
    SEARCH
