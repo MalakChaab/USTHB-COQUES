@@ -108,11 +108,6 @@ header{
 
 
 
-/* Numéro : chiffres uniquement, maximum 10 */
-$('phone').addEventListener('input', function(){
-  this.value = this.value.replace(/\D/g,'').slice(0,10);
-});
-
 /* =========================
    SEARCH
 ========================= */
@@ -1096,41 +1091,17 @@ async function load(){
   all = r.data || [];
 
   /* =========================
-     ARTICLES DEJA COMMANDES
-     Lecture uniquement :
-     aucune commande n'est modifiée.
+     STATUT ÉPUISÉ MANUEL
+
+     Le statut vient uniquement
+     de la colonne coques.epuise.
+     Les commandes ne sont jamais
+     lues, modifiées ou supprimées ici.
   ========================= */
-
-  const ordersResult = await db
-    .from('commandes')
-    .select('coque_id');
-
-  if(ordersResult.error){
-
-    console.warn(
-      'Impossible de lire les commandes:',
-      ordersResult.error.message
-    );
-
-    all = all.map(p => ({
-      ...p,
-      epuise:false
-    }));
-
-  } else {
-
-    const orderedIds = new Set(
-      (ordersResult.data || [])
-        .map(order => String(order.coque_id))
-        .filter(id => id !== 'null' && id !== 'undefined' && id !== '')
-    );
-
-    all = all.map(p => ({
-      ...p,
-      epuise: orderedIds.has(String(p.id))
-    }));
-
-  }
+  all = all.map(p => ({
+    ...p,
+    epuise: p.epuise === true
+  }));
 
   console.log(
     'Produits chargés:',
@@ -1759,6 +1730,12 @@ function openOrder(e){
 
     return;
 
+  }
+
+
+  if(current.epuise){
+    alert('❌ Cet article est actuellement ÉPUISÉ.');
+    return;
   }
 
 
