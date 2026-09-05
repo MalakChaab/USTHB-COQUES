@@ -393,6 +393,16 @@ textarea{
   gap:7px;
 }
 
+.product-actions{
+  flex-wrap:wrap;
+}
+
+.product-actions .success-btn,
+.product-actions .danger,
+.product-actions .primary{
+  white-space:nowrap;
+}
+
 /* =========================
    PRODUCT FORM
 ========================= */
@@ -1364,7 +1374,12 @@ textarea{
         <input
           id="clientTelephone"
           type="tel"
-          placeholder="0555..."
+          inputmode="numeric"
+          pattern="[0-9]{10}"
+          minlength="10"
+          maxlength="10"
+          placeholder="0555555555"
+          title="Le numéro doit contenir exactement 10 chiffres"
         >
 
       </div>
@@ -2317,6 +2332,9 @@ async function saveProduct(){
 
   let result;
 
+  if(!editingProductId){
+    payload.epuise = false;
+  }
 
   if(editingProductId){
 
@@ -2504,6 +2522,8 @@ function renderProducts(){
 
           </span>
 
+          ${product.epuise ? '<span class="badge" style="background:#222;color:#fff">ÉPUISÉ</span>' : ''}
+
 
           <br>
 
@@ -2525,6 +2545,12 @@ function renderProducts(){
             Modifier
           </button>
 
+          <button
+            class="${product.epuise ? 'success-btn' : 'danger'}"
+            onclick="toggleEpuisement('${esc(product.id)}', ${product.epuise ? 'false' : 'true'})"
+          >
+            ${product.epuise ? '🟢 Disponible' : '🔴 Épuisé'}
+          </button>
 
           <button
             class="danger"
@@ -2650,6 +2676,39 @@ function editProduct(id){
     top:0,
     behavior:'smooth'
   });
+
+}
+
+
+/* =====================================================
+   MARQUER DISPONIBLE / ÉPUISÉ
+===================================================== */
+
+async function toggleEpuisement(id, value){
+
+  const product = products.find(
+    p => String(p.id) === String(id)
+  );
+
+  if(!product) return;
+
+  const message = value
+    ? `Mettre « ${product.nom} » en ÉPUISÉ ?`
+    : `Remettre « ${product.nom} » comme DISPONIBLE ?`;
+
+  if(!confirm(message)) return;
+
+  const result = await db
+    .from('coques')
+    .update({ epuise: value })
+    .eq('id', id);
+
+  if(result.error){
+    alert('❌ Impossible de modifier le statut :\n' + result.error.message);
+    return;
+  }
+
+  await loadProducts();
 
 }
 
@@ -3517,7 +3576,8 @@ function renderManualProducts(){
     products
     .filter(
       p =>
-      p.disponible !== false
+      p.disponible !== false &&
+      p.epuise !== true
     )
     .map(product => {
 
@@ -3796,6 +3856,15 @@ async function saveManualOrder(){
   }
 
 
+  if(!/^\d{10}$/.test(telephone)){
+    showManualMessage(
+      '❌ Le numéro de téléphone doit contenir exactement 10 chiffres.',
+      true
+    );
+    return;
+  }
+
+
   if(
     livraison === 'Domicile' &&
     !adresse
@@ -3857,11 +3926,19 @@ async function saveManualOrder(){
 
   if(result.error){
 
-    showManualMessage(
-      '❌ ' +
-      result.error.message,
-      true
-    );
+    if(result.error.code === '23505'){
+      showManualMessage(
+        '❌ Article déjà commandé : il est maintenant ÉPUISÉ.',
+        true
+      );
+      await loadProducts();
+      renderManualProducts();
+    }else{
+      showManualMessage(
+        '❌ ' + result.error.message,
+        true
+      );
+    }
 
     return;
 
@@ -3869,9 +3946,12 @@ async function saveManualOrder(){
 
 
   showManualMessage(
-    '✅ Commande ajoutée avec succès !',
+    '✅ Commande ajoutée avec succès ! Article marqué ÉPUISÉ.',
     false
   );
+
+  await loadProducts();
+  renderManualProducts();
 
 
   $('clientNom').value = '';
@@ -3929,6 +4009,11 @@ function showManualMessage(
 
 }
 
+
+/* Numéro : chiffres uniquement, maximum 10 */
+$('clientTelephone').addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g,'').slice(0,10);
+});
 
 /* =====================================================
    AUTO LOGIN
